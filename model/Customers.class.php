@@ -11,8 +11,26 @@ class Customers extends Person
     private $number;
     private $city;
 
-    private static $cpt_customers;
-
+    /**
+     * Customers constructor.
+     * @param $lastName
+     * @param $firstName
+     * @param $email
+     * @param $zipCode
+     * @param $street
+     * @param $number
+     * @param $city
+     */
+    public function __construct($lastName, $firstName, $email, $zipCode, $street, $number, $city)
+    {
+        $this->lastName = $lastName;
+        $this->firstName = $firstName;
+        $this->email = $email;
+        $this->zipCode = $zipCode;
+        $this->street = $street;
+        $this->number = $number;
+        $this->city = $city;
+    }
 
 
 }

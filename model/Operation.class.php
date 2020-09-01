@@ -21,20 +21,14 @@ class Operation
      * @param $id_customer
      * @param $id_type
      * @param $status
-     * @param $creation_date
-     * @param $date_start
-     * @param $date_end
      * @param $description
      */
-    public function __construct($id_customer, $id_type, $status, $creation_date, $date_start, $date_end, $description)
+    public function __construct($id_customer, $id_type, $status, $description)
     {
         $this->id_customer = $id_customer;
         $this->id_type = $id_type;
-        $this->status = $status;
-        $this->creation_date = $creation_date;
-        $this->date_start = $date_start;
-        $this->date_end = $date_end;
         $this->description = $description;
+        $this->status = "Available"; // par défaut, le statut est available
     }
 
 
