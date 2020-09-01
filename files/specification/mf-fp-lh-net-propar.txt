@@ -1,0 +1,34 @@
+Nettoyage Propar
+Fait des heures de nettoyage pour les pros et particuliers
+Plusieurs type d’opérations
+- Grosse (Prix = 10000)
+- Moyenne (Prix = 2500)
+- Petite (Prix =1000)
+Et 3 types de personnel :
+- Expert
+- Senior
+- Apprenti
+L’expert peut ajouter du personnel et d’autres administrateurs il defini le login et mot de passe, nom/prenom des nouveaux.
+L’expert peut prendre des opérations. Les experts et les seniors peuvent prendre plusieurs opérations en même temps. 
+L’apprenti : 1 opération seulement
+Le senior : 3 opération simultanée
+L’expert : 5 opération simultanée, peut connaitre le chiffre d’affaire des opérations et peut ajouter un employé
+
+MENU :
+- lister les opérations passé. (Lister dans l’ordre alphabétique des noms prénom de l’employé)
+- Lister les opérations en cours (toutes les opérations existante hors connexion, puis les opérations de l’employé une fois connecté)(Lister dans l’ordre alphabétique des noms prénom)
+- Quitter
+- Connexion, login / mdp.
+- prendre opération (apres connexion), avec nom, prénom du client, un commentaire
+- Terminer une opération (apres connexion)
+- Ajouter un employé (pour l’expert)
+- Chiffre d’affaire des opérations terminées (pour l’expert)
+- Déconnexion
+
+Un même client peut prendre plusieurs opérations
+Le client choisi le type de l’opération puis renseigne son nom et prénom à l’opérateur qui saisi. 
+
+Livraison pour lundi 10h.
+
+Heritage Exception Final Private Public  Static
+Appli façon défensive qui ne crashe pas

@@ -1,0 +1,18 @@
+Expression du besoin client : Nettoyage Propar
+
+
+
+
+La société nous a sollicité afin de réaliser une application permettant de gérer les différents types d’opérations qu’elle propose à ses clients.
+Ainsi, cette société, qui est composée d’experts, de seniors et d’apprentis, souhaiterait que le logiciel commandé réponde aux besoins suivants :
+
+
+1. Que l’expert puisse ajouter du personnel et consulter le chiffre d’affaire des opérations terminées.
+2. Que tous les employés, après connexion, pourront prendre une opération, la terminer, voir leurs opérations en cours et terminées.
+3. Que tous les employés, avant connexion, pourront consulter toutes les opérations en cours et terminées, et que celles-ci soient triées par ordre alphabétique en fonction du nom et prénom du client.
+4. Que lors de la saisie d’une opération, l’employé puisse entrer les informations du client et, ait, le choix entre trois types d’opérations
+   1. petite (1000 euros)
+   2. moyenne (2500 euros)
+   3. grande (10000 euros)
+5. Que l’expert ait la possibilité de prendre cinq opérations simultanément, le senior trois et l’apprenti une seule.
+6. Que lors de la maintenance, il soit possible d’ajouter un type d’opération sans difficulté.
