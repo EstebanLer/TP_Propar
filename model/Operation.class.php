@@ -20,10 +20,9 @@ class Operation
      * Operation constructor.
      * @param $id_customer
      * @param $id_type
-     * @param $status
      * @param $description
      */
-    public function __construct($id_customer, $id_type, $status, $description)
+    public function __construct($id_customer, $id_type, $description)
     {
         $this->id_customer = $id_customer;
         $this->id_type = $id_type;
