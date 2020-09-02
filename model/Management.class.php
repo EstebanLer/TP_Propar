@@ -132,13 +132,35 @@ class Management
 
     }
 
-    public static function takeOperation() {
-        //test
-    } //vide
+    public static function takeOperation(Workers $worker, $id) {
+
+        // TODO : Penser à ajouter une date de début
+
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+        /* On récupère l'id de l'employé */
+        $id_select = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName");
+        $id_select->execute(array(
+            'lastName' => $worker->getLastName(),
+            'firstName' => $worker->getFirstName()
+        ));
+
+        $id_worker = $id_select->fetch(PDO::FETCH_ASSOC);
+
+        /* On vient l'ajouter dans l'opération et on passe son status à "taken" dans la bdd*/
+        $modify = $dbi->prepare("UPDATE operations SET id_workers = :id_workers, status = :status  WHERE id_operation = :id_operation");
+        $modify->execute(array(
+            'id_workers' => $id_worker['id_worker'],
+            'status' => 'Taken',
+            'id_operation' => $id
+
+        ));
+
+    }
 
     public static function updateOperation() {
 
-    } //vide
+    }
 
     public static function endOperation() {
 
@@ -152,7 +174,7 @@ class Management
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-        $req = $dbi->prepare("SELECT lastName, firstName, description, id_type FROM operations, customers WHERE status = :status AND operations.id_customer = customers.id_customer");
+        $req = $dbi->prepare("SELECT lastName, firstName, description, creation_date,id_type FROM operations, customers WHERE status = :status AND operations.id_customer = customers.id_customer ORDER BY lastName, firstName");
         $req->execute(array(
            'status' => 'Available'
         ));
@@ -165,6 +187,13 @@ class Management
 
     public static function listOfOperationsInProgress() {
 
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+        $req = $dbi->prepare("SELECT customers.firstName, customers.lastName, description, creation_date,id_type FROM  operations, customers WHERE status = :status AND customers.id_customer = operations.id_customer ORDER BY  customers.lastName, customers.firstName");
+        $req->execute(array(
+            'status' => 'Taken'
+        ));
+        return $listOfOperationsInProgress = $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function listOfOperationsDone() {
