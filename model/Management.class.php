@@ -133,7 +133,7 @@ class Management
     }
 
     public static function takeOperation() {
-
+        //test
     } //vide
 
     public static function updateOperation() {
