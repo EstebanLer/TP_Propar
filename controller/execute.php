@@ -27,8 +27,9 @@ $operationType3 = new Operation_type(10000, "Grande");
 
 
 //Management::addOperation($customer, $operationType1, "Ceci est une petite opération de nettoyage");
-
 //Management::modifyRoleWorkers($workers, "Admin");
+
+print_r(Management::listOfOperationsAvailable());
 
 
 

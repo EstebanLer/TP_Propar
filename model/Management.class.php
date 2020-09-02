@@ -132,4 +132,42 @@ class Management
 
     }
 
+    public static function takeOperation() {
+
+    } //vide
+
+    public static function updateOperation() {
+
+    } //vide
+
+    public static function endOperation() {
+
+    } //vide
+
+    public static function storeOperation() {
+
+    } //vide
+
+    public static function listOfOperationsAvailable() {
+
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+        $req = $dbi->prepare("SELECT lastName, firstName, description, id_type FROM operations, customers WHERE status = :status AND operations.id_customer = customers.id_customer");
+        $req->execute(array(
+           'status' => 'Available'
+        ));
+
+        // TODO : Revoir le la ligne du dessous
+
+         return $listOfOperationsAvailable = $req->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    public static function listOfOperationsInProgress() {
+
+    }
+
+    public static function listOfOperationsDone() {
+
+    }
 }
