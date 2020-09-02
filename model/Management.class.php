@@ -20,23 +20,27 @@ class Management
         ));
     }
 
-    public static function createIdWorkers(Workers $workers) {
+    public static function createIdWorkers($firstName, $lastName, $role, $birthday, $email, $login, $password) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
         // In fine rajouter la création d'un workers dans cette méthode et en paramètre on mettra les posts
         // $passwordHash = password_hash($password, PASSWORD_BCRYPT, array("cost" => 12)); ligne pour hash les passwords
 
+        $currentDate = date('Y-m-d');
+
+        $workers = new Workers($firstName, $lastName, $email, $role, $login, $password,new DateTime("$birthday"), $currentDate, array());
+
         $req = $dbi->prepare("INSERT INTO workers (firstName, lastName, role, birthday, hiring_date, email, login, password) VALUES (:firstName, :lastName, :role, :birthday, :hiring_date, :email, :login, :password)");
         $req->execute(array(
-            'firstName' => $workers->getFirstName(),
-            'lastName' => $workers->getLastName(),
-            'role' => $workers->getRole(),
+            'firstName' => iconv("UTF-8", "Windows-1252",$workers->getFirstName()),
+            'lastName' => iconv("UTF-8", "Windows-1252",$workers->getLastName()),
+            'role' => iconv("UTF-8", "Windows-1252",$workers->getRole()),
             'birthday' => $workers->getBirthday()->format("Y-m-d"),
-            'hiring_date' => $workers->getHiringDate()->format("Y-m-d"),
-            'email' => $workers->getEmail(),
-            'login' => $workers->getLogin(),
-            'password' => $workers->getPassword()
+            'hiring_date' => $workers->getHiringDate(),
+            'email' => iconv("UTF-8", "Windows-1252",$workers->getEmail()),
+            'login' => iconv("UTF-8", "Windows-1252",$workers->getLogin()),
+            'password' => iconv("UTF-8", "Windows-1252",$workers->getPassword())
         ));
     }
 
