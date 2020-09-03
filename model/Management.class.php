@@ -148,9 +148,9 @@ class Management
         $id_worker = $id_select->fetch(PDO::FETCH_ASSOC);
 
         /* On vient l'ajouter dans l'opération et on passe son status à "taken" dans la bdd*/
-        $modify = $dbi->prepare("UPDATE operations SET id_workers = :id_workers, status = :status  WHERE id_operation = :id_operation");
+        $modify = $dbi->prepare("UPDATE operations SET id_worker = :id_worker, status = :status  WHERE id_operation = :id_operation");
         $modify->execute(array(
-            'id_workers' => $id_worker['id_worker'],
+            'id_worker' => $id_worker['id_worker'],
             'status' => 'Taken',
             'id_operation' => $id
 
