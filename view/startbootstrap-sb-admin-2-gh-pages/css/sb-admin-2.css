@@ -504,15 +504,39 @@ mark,
   color: #858796;
 }
 
+#createWorker {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 #createWorkerHeader {
   margin: auto;
   text-align: center;
+}
+
+#createOperation {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 #createOperationHeader {
   margin: auto;
   text-align: center;
 }
+
+#modifyRoleWorker {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#modifyWorkerHeader {
+  margin: auto;
+  text-align: center;
+}
+
 
 code {
   font-size: 87.5%;

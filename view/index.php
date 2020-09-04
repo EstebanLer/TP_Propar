@@ -12,7 +12,7 @@ session_start() ?>
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>Propar Cleaning Company Dashboard</title>
 
   <!-- Custom fonts for this template-->
   <link href="startbootstrap-sb-admin-2-gh-pages/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,6 +20,11 @@ session_start() ?>
 
   <!-- Custom styles for this template-->
   <link href="startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
 
 </head>
 
@@ -29,7 +34,7 @@ session_start() ?>
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -67,7 +72,7 @@ session_start() ?>
       </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="#" id="buttonWorkersRole">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Modify role worker</span>
             </a>
@@ -282,7 +287,7 @@ session_start() ?>
                         <h6 class="m-0 font-weight-bold text-primary" id="createOperationHeader"> Create New Operation</h6>
                         <hr class="sidebar-divider my-0">
                         <br>
-                        <form action="../controller/createWorker.action.php" method="post">
+                        <form action="../controller/addOperation.action.php" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="clientFirstName">Client first name</label>
@@ -329,6 +334,47 @@ session_start() ?>
                         </form>
                     </div>
                 </div>
+
+                <!-- Modify worker's role -->
+
+                <div class="col-lg-12 mb-12">
+
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4" id="modifyRoleWorker">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="modifyWorkerHeader">Modify worker's role</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <form action="../controller/modifyWorkersRole.php" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <label for="workerFirstName">Worker's first name</label>
+                                        <input type="text" class="form-control" id="workerFirstName" name="workerFirstName" placeholder="Worker's first name ...">
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <label for="workerLastName">Worker's last name</label>
+                                        <input type="text" class="form-control" id="workerLastName" name="workerLastName" placeholder="Worker's last name here ...">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="workerID">Worker's ID</label>
+                                        <input type="text" class="form-control" id="workerID" name="workerID" placeholder="1">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleFormControlSelect1">Role</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="role">
+                                            <option>Expert</option>
+                                            <option>Senior</option>
+                                            <option>Junior</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Modify worker's role</button>
+                            </form>
+                        </div>
+                    </div>
+
+                <!-- End of Modify worker's role  -->
+
             </div>
         </div>
             <!-- End of Main Content -->
