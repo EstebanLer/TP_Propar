@@ -9,7 +9,7 @@ if (isset($_POST)) {
 
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
-        $req = $dbi->prepare("SELECT login, password, firstName, lastName FROM workers WHERE login = :login AND password = :password");
+        $req = $dbi->prepare("SELECT login, password, firstName, lastName, role FROM workers WHERE login = :login AND password = :password");
 
         $req->execute(array(
             'login' => $_POST['username'],
@@ -19,15 +19,15 @@ if (isset($_POST)) {
 
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
+        // $passwordVerify = password_verify($_POST['password'], $passwordHash);
 
         if ($result[0]['login'] == $_POST['username'] && $result[0]['password'] == $_POST['password']) {
             $_SESSION['user'] = $result[0]['firstName'] . " " . $result[0]['lastName'];
-            header("Location: ../view/dashboard.php");
+            $_SESSION['userRole'] = $result[0]['role'];
+            header("Location: ../view/index.php");
         } else {
             echo "Le login ou le mot de passe est incorrect";
         }
-    } else {
-        header("Location: ../view/login.html");
     }
 
 }

@@ -11,20 +11,22 @@ if (isset($_POST)) {
 
     $req = $dbi->prepare("SELECT firstName, lastName FROM workers WHERE firstName= :firstName AND lastName= :lastName");
     $req->execute(array(
-        'firstName' => $_POST['fname'],
-        'lastName' => $_POST['lname']
+        'firstName' => $_POST['firstName'],
+        'lastName' => $_POST['lastname']
     ));
 
     $worker = $req->fetch(PDO::FETCH_ASSOC);
 
     $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, array("cost" => 12));
 
+
+
     //$workers = new Workers('Esteban', 'Leroy', 'leroy@gmail.com', "expert", "admin", "admin", $dateBirth, $dateHiring, array());
-    if (($_POST['lname'] == $worker['lastName']) && ($_POST['fname'] == $worker['firstName'])) {
-        echo ("L'employé existe déjà");
+    if (($_POST['lastname'] == $worker['lastName']) && ($_POST['firstName'] == $worker['firstName'])) {
+        $_SESSION['erreur'] = "L'employé existe déjà";
+        header("Location: ../view/index.php");
     } else {
-        // createIdWorkers($firstName, $lastName, $role, $birthday, $email, $login, $password)
-        Management::createIdWorkers($_POST['fname'], $_POST['lname'], $_POST['role'], $_POST['birthday'],$_POST['email'], $_POST['login'], $passwordHash);
-        echo "Employé créé ! ";
+        Management::createIdWorkers($_POST['firstName'], $_POST['lastname'], $_POST['role'], $_POST['birthday'],$_POST['email'], $_POST['login'], $_POST['password']);
+        header("Location: ../view/index.php");
     }
 }

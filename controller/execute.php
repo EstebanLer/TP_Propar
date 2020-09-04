@@ -37,7 +37,7 @@ $operationType3 = new Operation_type(10000, "Grande");
 
 
 $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
-$req = $dbi->prepare("SELECT login, password FROM workers WHERE login = :login AND password = :password");
+$req = $dbi->prepare("SELECT login, password, firstName, lastName, role FROM workers WHERE login = :login AND password = :password");
 
 $req->execute(array(
     'login' => 'admin',
