@@ -537,6 +537,39 @@ mark,
   text-align: center;
 }
 
+#displayAvailableOperation {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#displayAvailableOperationHeader {
+  margin: auto;
+  text-align: center;
+}
+
+#displayInProgressOperation {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#displayInProgressOperationHeader {
+  margin: auto;
+  text-align: center;
+}
+
+#updateOperation {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#updateOperationHeader {
+  margin: auto;
+  text-align: center;
+}
+
 
 code {
   font-size: 87.5%;

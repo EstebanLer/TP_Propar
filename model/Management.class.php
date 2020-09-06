@@ -61,7 +61,7 @@ class Management
 
     }
 
-    public static function addOperation(Customers $customers, Operation_type $operationType, $description) {
+    public static function addOperation(Customers $customers, $type, $description) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
@@ -87,7 +87,7 @@ class Management
 
         $idType_select = $dbi->prepare("SELECT id_type FROM operation_type WHERE type = :type");
         $idType_select->execute(array(
-            'type' => $operationType->getType()
+            'type' => $type
         ));
 
         $id_operationType = $idType_select->fetch(PDO::FETCH_ASSOC);
@@ -112,14 +112,14 @@ class Management
 
     }
 
-    public static function modifyRoleWorkers(Workers $workers, $newRole) {
+    public static function modifyRoleWorkers($firstName, $lastName, $newRole) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
         $id_select = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName");
         $id_select->execute(array(
-            'lastName' => $workers->getLastName(),
-            'firstName' => $workers->getFirstName()
+            'lastName' => $lastName,
+            'firstName' => $firstName
         ));
 
         $id_worker = $id_select->fetch(PDO::FETCH_ASSOC);
@@ -158,7 +158,25 @@ class Management
 
     }
 
-    public static function updateOperation() {
+    public static function updateOperation($firstName, $lastName, $id_operation, $newDescription) {
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+//        $req = $dbi->prepare("SELECT id_customer FROM customers WHERE firstName = :firstname AND lastName = :lastName");
+//        $req->execute(array(
+//            'firstName' => $firstName,
+//            'lastName' => $lastName
+//        ));
+
+        $req = $dbi->query("SELECT id_customer FROM customers WHERE firstName = '$firstName' AND lastName = '$lastName'");
+
+        $id_client = $req->fetch(PDO::FETCH_ASSOC);
+
+        $req2 = $dbi->prepare("UPDATE operations SET id_type = :id_type, description = :description WHERE id_customer = :id_customer ");
+        $req2->execute(array(
+            'id_customer' => $id_client['id_customer'],
+            'id_type' => $id_operation,
+            'description' => $newDescription
+        ));
 
     }
 
@@ -198,5 +216,35 @@ class Management
 
     public static function listOfOperationsDone() {
 
+    }
+
+    public static function displayIncomesByMonth() {
+
+        $currentMonth = date('m');
+
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+        $req = $dbi->query("SELECT SUM(price) FROM operations, operation_type WHERE operations.id_type = operation_type.id_type AND creation_date LIKE '%$currentMonth%' ");
+
+
+
+        $response = $req->fetch(PDO::FETCH_ASSOC);
+
+        $revenu = implode(" ",$response );
+        echo $revenu . " €";
+    }
+
+    public static function displayIncomesByYear() {
+
+        $currentYear = date('Y');
+
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+        $req = $dbi->query("SELECT SUM(price) FROM operations, operation_type WHERE operations.id_type = operation_type.id_type AND creation_date LIKE '%$currentYear%' ");
+
+
+
+        $response = $req->fetch(PDO::FETCH_ASSOC);
+
+        $revenu = implode(" ",$response );
+        echo $revenu . " €";
     }
 }

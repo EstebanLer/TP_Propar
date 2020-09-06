@@ -36,16 +36,20 @@ $operationType3 = new Operation_type(10000, "Grande");
 //Management::takeOperation($workers, 1);
 
 
+$currentMonth = date('m');
+//echo $currentMonth;
+
 $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
-$req = $dbi->prepare("SELECT login, password, firstName, lastName, role FROM workers WHERE login = :login AND password = :password");
 
-$req->execute(array(
-    'login' => 'admin',
-    'password' => 'admin'
-));
+//$req = $dbi->prepare("SELECT id_customer FROM customers WHERE firstName = :firstname AND lastName = :lastName");
+//$req->execute(array(
+//    'firstName' => 'Jean',
+//    'lastName' => 'martin'
+//));
 
-$result = $req->fetchAll(PDO::FETCH_ASSOC);
+$req = $dbi->query("SELECT id_customer FROM customers WHERE firstName = 'Jean' AND lastName = 'martin'");
 
-print_r($result);
+$id_client = $req->fetch(PDO::FETCH_ASSOC);
+print_r($id_client);
 
 

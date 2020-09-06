@@ -1,4 +1,6 @@
 <?php
+include_once '../model/Management.class.php';
+
 session_start() ?>
 
 <!DOCTYPE html>
@@ -21,10 +23,8 @@ session_start() ?>
   <!-- Custom styles for this template-->
   <link href="startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.css" rel="stylesheet">
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 
 </head>
 
@@ -88,7 +88,15 @@ session_start() ?>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="#" id="buttonUpdateOperation">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Update Operation</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonDisplayAvailableOperation">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Display available operations</span>
             </a>
@@ -96,33 +104,12 @@ session_start() ?>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="#" id="buttonDisplayInProgressOperation">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Display in progress operations</span>
             </a>
             <hr class="sidebar-divider my-0">
         </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.php">Login</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="startbootstrap-sb-admin-2-gh-pages/charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
-      </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
@@ -156,7 +143,12 @@ session_start() ?>
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $_SESSION['user'] ?></span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php if (!empty($_SESSION)) {
+                        echo $_SESSION['user'];
+                    } else {
+                        echo "Dashboard";
+                    }
+                    ?></span>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -190,7 +182,10 @@ session_start() ?>
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard <?php echo $_SESSION['userRole']?></h1>
+            <h1 class="h3 mb-0 text-gray-800">Dashboard <?php if (!empty($_SESSION)) {
+                    echo $_SESSION['userRole'];
+                }
+                ?></h1>
           </div>
 
           <!-- Content Row -->
@@ -203,7 +198,10 @@ session_start() ?>
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (!empty($_SESSION)) {
+                            Management::displayIncomesByMonth();
+                          }
+                          ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -220,7 +218,10 @@ session_start() ?>
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (!empty($_SESSION)) {
+                              Management::displayIncomesByYear();
+                          }
+                          ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -242,15 +243,16 @@ session_start() ?>
                         <h6 class="m-0 font-weight-bold text-primary" id="createWorkerHeader">Create Worker</h6>
                         <hr class="sidebar-divider my-0">
                         <br>
-                        <form action="../controller/createWorker.action.php" method="post">
+                        <form  method="post" id="createWorkerForm">
+                            <!-- action="../controller/createWorker.action.php" -->
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="login">Username</label>
                                     <input type="text" class="form-control " id="login" name="login" placeholder="Username">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Password</label>
-                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password" name="password">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="firstName">First Name</label>
@@ -265,19 +267,19 @@ session_start() ?>
                                     <input type="text" class="form-control" id="birthday" name="birthday" placeholder="1999-01-01">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="inputEmail4">Email</label>
-                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Email" name="email">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="exampleFormControlSelect1">Role</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name="role">
+                                    <label for="role">Role</label>
+                                    <select class="form-control" id="role" name="role">
                                         <option>Expert</option>
                                         <option>Senior</option>
                                         <option>Junior</option>
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Worker</button>
+                            <button type="submit" class="btn btn-primary" id="submitCreateWorker">Create Worker</button>
                         </form>
                     </div>
                 </div>
@@ -287,15 +289,15 @@ session_start() ?>
                         <h6 class="m-0 font-weight-bold text-primary" id="createOperationHeader"> Create New Operation</h6>
                         <hr class="sidebar-divider my-0">
                         <br>
-                        <form action="../controller/addOperation.action.php" method="post">
+                        <form id="addOperationForm" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="clientFirstName">Client first name</label>
-                                    <input type="text" class="form-control" id="clientFirstName" name="clientFirstName" placeholder="Client first name here ...">
+                                    <input type="text" class="form-control" id="clientFirstName" name="firstName" placeholder="Client first name here ...">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="clientLastName">Client last name</label>
-                                    <input type="text" class="form-control" id="clientLastName" name="clientLastName" placeholder="Client last name here ...">
+                                    <input type="text" class="form-control" id="clientLastName" name="lastName" placeholder="Client last name here ...">
                                 </div>
                                 <div class="form-group col-md-3" >
                                     <label for="city">City</label>
@@ -303,7 +305,7 @@ session_start() ?>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="inputZip">Zip</label>
-                                    <input type="text" class="form-control" id="inputZip">
+                                    <input type="text" class="form-control" id="inputZip" name="zipCode">
                                 </div>
                                 <div class="form-group col-md-2" >
                                     <label for="street">Street</label>
@@ -314,26 +316,63 @@ session_start() ?>
                                     <input type="text" class="form-control" id="number" name="number">
                                 </div>
                                 <div class="form-group col-md-5">
-                                    <label for="inputEmail4">Email</label>
-                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
+                                    <label for="clientEmail">Email</label>
+                                    <input type="email" class="form-control" id="clientEmail" placeholder="Email" name="email">
                                 </div>
                                 <div class="form-group col-md-1">
-                                    <label for="exampleFormControlSelect1">Type</label>
-                                    <select class="form-control" id="exampleFormControlSelect1" name="role">
+                                    <label for="type">Type</label>
+                                    <select class="form-control" id="type" name="type">
+                                        <option>Petite</option>
+                                        <option>Moyenne</option>
+                                        <option>Grosse</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="description">Operation's description</label>
+                                    <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="submitNewOperation">Add operation</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Update operation -->
+
+                <div class="card shadow mb-4" id="updateOperation">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary" id="updateOperationHeader">Update operation</h6>
+                        <hr class="sidebar-divider my-0">
+                        <br>
+                        <form id="updateForm"  method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="clientFirstNameUpdate">Client first name</label>
+                                    <input type="text" class="form-control" id="clientFirstNameUpdate" name="firstName" placeholder="Client first name here ...">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="clientLastNameUpdate">Client last name</label>
+                                    <input type="text" class="form-control" id="clientLastNameUpdate" name="lastName" placeholder="Client last name here ...">
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <label for="typeUpdate">Type</label>
+                                    <select class="form-control" id="typeUpdate" name="typeUpdate">
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="exampleFormControlTextarea1">Operation's description</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+                                    <label for="updateDescription"> Update Operation's description</label>
+                                    <textarea class="form-control" id="updateDescription" rows="3" name="description"></textarea>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add operation</button>
+                            <button type="submit" class="btn btn-primary" id="submitUpdateOperation">Update operation</button>
                         </form>
                     </div>
                 </div>
+
+                <!-- end update operation -->
 
                 <!-- Modify worker's role -->
 
@@ -345,7 +384,7 @@ session_start() ?>
                             <h6 class="m-0 font-weight-bold text-primary" id="modifyWorkerHeader">Modify worker's role</h6>
                             <hr class="sidebar-divider my-0">
                             <br>
-                            <form action="../controller/modifyWorkersRole.php" method="post">
+                            <form id="modifyRoleWorkerForm" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-5">
                                         <label for="workerFirstName">Worker's first name</label>
@@ -360,22 +399,66 @@ session_start() ?>
                                         <input type="text" class="form-control" id="workerID" name="workerID" placeholder="1">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="exampleFormControlSelect1">Role</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="role">
+                                        <label for="modifyRole">Role</label>
+                                        <select class="form-control" id="modifyRole" name="role">
                                             <option>Expert</option>
                                             <option>Senior</option>
                                             <option>Junior</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Modify worker's role</button>
+                                <button type="submit" class="btn btn-primary" id="submitModifyRoleWorker">Modify worker's role</button>
                             </form>
                         </div>
                     </div>
 
-                <!-- End of Modify worker's role  -->
+
 
             </div>
+
+                <!-- End of Modify worker's role  -->
+
+
+                <!-- Display available operations -->
+
+                <div class="col-lg-12 mb-12">
+
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4" id="displayAvailableOperation">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="displayAvailableOperationHeader">Available operations</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <!-- End Display available operations -->
+
+                <!-- Display operation in progress -->
+
+                <div class="col-lg-12 mb-12">
+
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4" id="displayInProgressOperation">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="displayInProgressOperationHeader">Operation in progress</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <!-- End Display operation in progress -->
+
         </div>
             <!-- End of Main Content -->
 
@@ -410,17 +493,14 @@ session_start() ?>
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="startbootstrap-sb-admin-2-gh-pages/vendor/jquery-easing/jquery.easing.min.js"></script>
+
 
   <!-- Custom scripts for all pages-->
   <script src="../view/assets/js/dashboard.js"></script>
 
   <!-- Page level plugins -->
-
+  <script src="startbootstrap-sb-admin-2-gh-pages/js/demo/datatables-demo.js"></script>
   <!-- Page level custom scripts -->
-  <script src="startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
-  <script src="startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
