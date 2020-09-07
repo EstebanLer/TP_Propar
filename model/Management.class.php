@@ -229,8 +229,8 @@ class Management
 
         $response = $req->fetch(PDO::FETCH_ASSOC);
 
-        $revenu = implode(" ",$response );
-        echo $revenu . " €";
+          return implode(" ",$response );
+
     }
 
     public static function displayIncomesByYear() {
@@ -244,7 +244,7 @@ class Management
 
         $response = $req->fetch(PDO::FETCH_ASSOC);
 
-        $revenu = implode(" ",$response );
-        echo $revenu . " €";
+        return implode(" ",$response );
+
     }
 }

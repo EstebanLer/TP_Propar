@@ -47,9 +47,6 @@ $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de d
 //    'lastName' => 'martin'
 //));
 
-$req = $dbi->query("SELECT id_customer FROM customers WHERE firstName = 'Jean' AND lastName = 'martin'");
-
-$id_client = $req->fetch(PDO::FETCH_ASSOC);
-print_r($id_client);
+Management::addOperation($customer, "Petite", "grosse op");
 
 

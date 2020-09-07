@@ -1,13 +1,10 @@
-
-$("#exist").hide();
-
-
 $('#createWorker').hide();
 $(document).on('click', '#buttonCreateWorker', function (e) {
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
     $('#displayInProgressOperation').hide();
+    $('#updateOperation').hide();
     $('#createWorker').fadeIn();
 });
 
@@ -17,6 +14,7 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
     $('#displayInProgressOperation').hide();
+    $('#updateOperation').hide();
     $('#createOperation').fadeIn();
 });
 
@@ -27,6 +25,7 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $('#createOperation').hide();
     $('#displayAvailableOperation').hide();
     $('#displayInProgressOperation').hide();
+    $('#updateOperation').hide();
     $('#modifyRoleWorker').fadeIn();
 });
 
@@ -36,6 +35,7 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
     $('#displayInProgressOperation').hide();
+    $('#updateOperation').hide();
     $('#displayAvailableOperation').fadeIn();
 });
 
@@ -45,6 +45,7 @@ $(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
+    $('#updateOperation').hide();
     $('#displayInProgressOperation').fadeIn();
 })
 
@@ -84,7 +85,7 @@ $(document).ready(function () {
                 alert('Un employé existe déjà ')
             }
         });
-
+        $("#createWorkerForm")[0].reset();
 
     });
 
@@ -163,4 +164,48 @@ $(document).ready(function () {
         $("#updateForm")[0].reset();
     });
 
+    $('#submitNewOperation').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayIncomesByMonth.action.php',
+            type: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                $("#incomesByMonth").html(data + " €")
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    });
+
+});
+
+$(document).ready(function () {
+        $.ajax({
+                url : '/TP_Propar/controller/displayIncomesByMonth.action.php',
+                type: 'POST',
+                dataType : 'json',
+                success:function (data) {
+                    $("#incomesByMonth").html(data + " €")
+                },
+                error:function () {
+                    alert('erreur')
+                }
+            });
+});
+
+$(document).ready(function () {
+    $.ajax({
+        url : '/TP_Propar/controller/displayIncomesByYear.action.php',
+        type: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            $("#incomesByYear").html(data + " €")
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
 });

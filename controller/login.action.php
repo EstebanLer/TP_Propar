@@ -4,6 +4,9 @@ include_once '../model/dbSingleton.class.php';
 
 session_start();
 
+$_SESSION['user'] = "";
+$_SESSION['userRole'] = "";
+
 if (isset($_POST)) {
     if (!empty($_POST['username']) && (!empty($_POST['password']))) {
 

@@ -1,7 +1,8 @@
 <?php
 include_once '../model/Management.class.php';
 
-session_start() ?>
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,12 +58,16 @@ session_start() ?>
       <!-- Divider -->
       <hr class="sidebar-divider">
 
+
       <!-- Heading -->
       <div class="sidebar-heading">
           Administration Panel
       </div>
 
+
       <!-- Nav Item - Pages Collapse Menu -->
+        <?php if (!empty($_SESSION['userRole'])) {
+        if ($_SESSION['userRole'] == "Expert") { ?>
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" id="buttonCreateWorker">
           <i class="fas fa-fw fa-cog"></i>
@@ -78,6 +83,12 @@ session_start() ?>
             </a>
             <hr class="sidebar-divider my-0">
         </li>
+        <?php }
+        }?>
+
+
+        <?php if (!empty($_SESSION['userRole'])) {
+        if ($_SESSION['userRole'] == "Expert" || $_SESSION['userRole'] == "Senior" || $_SESSION['userRole'] == "Junior") { ?>?>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" id="buttonCreateOperation">
@@ -96,14 +107,6 @@ session_start() ?>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" id="buttonDisplayAvailableOperation">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Display available operations</span>
-            </a>
-            <hr class="sidebar-divider my-0">
-        </li>
-
-        <li class="nav-item">
             <a class="nav-link collapsed" href="#" id="buttonDisplayInProgressOperation">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Display in progress operations</span>
@@ -111,12 +114,24 @@ session_start() ?>
             <hr class="sidebar-divider my-0">
         </li>
 
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="startbootstrap-sb-admin-2-gh-pages/tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
+        <?php }
+        }?>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonDisplayAvailableOperation">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Display available operations</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonDisplayDoneOperation">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Display operation done</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
+
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -143,32 +158,27 @@ session_start() ?>
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php if (!empty($_SESSION)) {
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php if (!empty($_SESSION['user'])) {
                         echo $_SESSION['user'];
-                    } else {
+                    } else{
                         echo "Dashboard";
                     }
                     ?></span>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
+                  <?php if (empty($_SESSION))  {?>
+                      <a class="dropdown-item" href="login.php">
+                          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                          Log-in
+                      </a>
+                  <?php } else {
+                      ?>
+                       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                          Logout
+                       </a>
+                  <?php } ?>
               </div>
             </li>
 
@@ -191,6 +201,10 @@ session_start() ?>
           <!-- Content Row -->
           <div class="row">
 
+              <?php if (!empty($_SESSION['userRole'])) {
+
+
+              if ($_SESSION['userRole'] == "Expert") { ?>
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
@@ -199,7 +213,7 @@ session_start() ?>
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (!empty($_SESSION)) {
-                            Management::displayIncomesByMonth();
+                            echo "<span id='incomesByMonth'></span>";
                           }
                           ?></div>
                     </div>
@@ -219,7 +233,7 @@ session_start() ?>
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (!empty($_SESSION)) {
-                              Management::displayIncomesByYear();
+                              echo "<span id='incomesByYear'></span>";
                           }
                           ?></div>
                     </div>
@@ -230,6 +244,9 @@ session_start() ?>
                 </div>
               </div>
             </div>
+
+              <?php }
+              }?>
           </div>
 
         <div class="row">
@@ -324,7 +341,7 @@ session_start() ?>
                                     <select class="form-control" id="type" name="type">
                                         <option>Petite</option>
                                         <option>Moyenne</option>
-                                        <option>Grosse</option>
+                                        <option>Grande</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -429,7 +446,31 @@ session_start() ?>
                             <h6 class="m-0 font-weight-bold text-primary" id="displayAvailableOperationHeader">Available operations</h6>
                             <hr class="sidebar-divider my-0">
                             <br>
-
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>John</td>
+                                    <td>Doe</td>
+                                    <td>john@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td>Mary</td>
+                                    <td>Moe</td>
+                                    <td>mary@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td>July</td>
+                                    <td>Dooley</td>
+                                    <td>july@example.com</td>
+                                </tr>
+                                </tbody>
                         </div>
                     </div>
 
@@ -483,14 +524,14 @@ session_start() ?>
         <div class="modal-body">Vous êtes sur le point de vous déconnecter.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.php">Logout</a>
+          <a class="btn btn-primary" href="../controller/logout.action.php">Logout</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/jquery/jquery-3.5.1.min.js"></script>
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
@@ -498,8 +539,6 @@ session_start() ?>
   <!-- Custom scripts for all pages-->
   <script src="../view/assets/js/dashboard.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="startbootstrap-sb-admin-2-gh-pages/js/demo/datatables-demo.js"></script>
   <!-- Page level custom scripts -->
 
 </body>
