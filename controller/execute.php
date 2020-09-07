@@ -47,6 +47,6 @@ $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de d
 //    'lastName' => 'martin'
 //));
 
-Management::addOperation($customer, "Petite", "grosse op");
+print_r(Management::listOfOperationsAvailable());
 
 

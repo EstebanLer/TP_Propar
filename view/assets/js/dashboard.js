@@ -3,8 +3,9 @@ $(document).on('click', '#buttonCreateWorker', function (e) {
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
-    $('#displayInProgressOperation').hide();
     $('#updateOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#displayInProgressOperation').hide();
     $('#createWorker').fadeIn();
 });
 
@@ -13,8 +14,9 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $('#createWorker').hide();
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
-    $('#displayInProgressOperation').hide();
     $('#updateOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#displayInProgressOperation').hide();
     $('#createOperation').fadeIn();
 });
 
@@ -24,8 +26,9 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $('#createWorker').hide();
     $('#createOperation').hide();
     $('#displayAvailableOperation').hide();
-    $('#displayInProgressOperation').hide();
     $('#updateOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#displayInProgressOperation').hide();
     $('#modifyRoleWorker').fadeIn();
 });
 
@@ -34,20 +37,12 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $('#createWorker').hide();
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
-    $('#displayInProgressOperation').hide();
     $('#updateOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#displayInProgressOperation').hide();
     $('#displayAvailableOperation').fadeIn();
 });
 
-$('#displayInProgressOperation').hide();
-$(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
-    $('#createWorker').hide();
-    $('#createOperation').hide();
-    $('#modifyRoleWorker').hide();
-    $('#displayAvailableOperation').hide();
-    $('#updateOperation').hide();
-    $('#displayInProgressOperation').fadeIn();
-})
 
 $('#updateOperation').hide();
 $(document).on('click', '#buttonUpdateOperation', function (e) {
@@ -55,9 +50,23 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
     $('#createOperation').hide();
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
+    $("#tbodyAvailable").empty();
     $('#displayInProgressOperation').hide();
-    $('#updateOperation').show();
+    $('#updateOperation').fadeIn();
 })
+
+$('#displayInProgressOperation').hide();
+$(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
+    $('#createWorker').hide();
+    $('#createOperation').hide();
+    $('#modifyRoleWorker').hide();
+    $('#displayAvailableOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#updateOperation').hide();
+    $('#displayInProgressOperation').fadeIn();
+})
+
+
 
 $(document).ready(function () {
 
@@ -209,3 +218,35 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
+
+    $.ajax({
+        url : '/TP_Propar/controller/displayAvailableOperation.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#tbodyAvailable").append("<tr id='trBody'></tr>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.id_operation + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.description + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.email + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.creation_date + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.date_start + "</td>")
+                $('#tableOperation tbody>tr:last').append("<td>" + element.type + "</td>")
+
+                $(document).ready( function () {
+                    $('#tableOperation').DataTable();
+                } );
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+});
+

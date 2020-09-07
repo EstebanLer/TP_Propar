@@ -24,7 +24,6 @@ session_start();
   <!-- Custom styles for this template-->
   <link href="startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.css" rel="stylesheet">
 
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 
 </head>
@@ -110,6 +109,20 @@ session_start();
             <a class="nav-link collapsed" href="#" id="buttonDisplayInProgressOperation">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Display in progress operations</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonTakeOperation">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Take an operation</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonEndOperation">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>End Operation</span>
             </a>
             <hr class="sidebar-divider my-0">
         </li>
@@ -435,53 +448,7 @@ session_start();
 
                 <!-- End of Modify worker's role  -->
 
-
-                <!-- Display available operations -->
-
-                <div class="col-lg-12 mb-12">
-
-                    <!-- Project Card Example -->
-                    <div class="card shadow mb-4" id="displayAvailableOperation">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary" id="displayAvailableOperationHeader">Available operations</h6>
-                            <hr class="sidebar-divider my-0">
-                            <br>
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>Firstname</th>
-                                    <th>Lastname</th>
-                                    <th>Email</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>john@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td>Mary</td>
-                                    <td>Moe</td>
-                                    <td>mary@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td>July</td>
-                                    <td>Dooley</td>
-                                    <td>july@example.com</td>
-                                </tr>
-                                </tbody>
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-                <!-- End Display available operations -->
-
                 <!-- Display operation in progress -->
-
                 <div class="col-lg-12 mb-12">
 
                     <!-- Project Card Example -->
@@ -494,11 +461,41 @@ session_start();
                         </div>
                     </div>
 
+                </div>
+                <!-- End Display operation in progress -->
+
+                <!-- Display available operations -->
+
+                <div class="col-lg-12 mb-12">
+
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4" id="displayAvailableOperation">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="displayAvailableOperationHeader">Available operations</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <table class="table" id="tableOperation">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Client's lastname</th>
+                                    <th>Client's firstname</th>
+                                    <th>Operation's ID</th>
+                                    <th>Description</th>
+                                    <th>Email</th>
+                                    <th>Creation date</th>
+                                    <th>Beginning of the Operation</th>
+                                    <th>Type of operation</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyAvailable"></tbody>
+                            </table>
+                        </div>
+                    </div>
 
 
                 </div>
-
-                <!-- End Display operation in progress -->
+                <!-- End Display available operations -->
 
         </div>
             <!-- End of Main Content -->
@@ -532,6 +529,8 @@ session_start();
 
   <!-- Bootstrap core JavaScript-->
   <script src="assets/jquery/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 

@@ -537,22 +537,13 @@ mark,
   text-align: center;
 }
 
-#displayAvailableOperation {
-  margin-top: 5%;
-  margin-left: 5%;
-  margin-right: 5%;
-}
 
 #displayAvailableOperationHeader {
   margin: auto;
   text-align: center;
 }
 
-#displayInProgressOperation {
-  margin-top: 5%;
-  margin-left: 5%;
-  margin-right: 5%;
-}
+
 
 #displayInProgressOperationHeader {
   margin: auto;

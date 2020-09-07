@@ -192,7 +192,7 @@ class Management
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-        $req = $dbi->prepare("SELECT lastName, firstName, description, creation_date,id_type FROM operations, customers WHERE status = :status AND operations.id_customer = customers.id_customer ORDER BY lastName, firstName");
+        $req = $dbi->prepare("SELECT lastName, firstName, description, email, creation_date,date_start, type, id_operation FROM operations, customers, operation_type WHERE status = :status AND operations.id_customer = customers.id_customer AND operations.id_type = operation_type.id_type ORDER BY lastName, firstName");
         $req->execute(array(
            'status' => 'Available'
         ));
