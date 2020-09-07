@@ -465,7 +465,6 @@ session_start();
                 <!-- End Display operation in progress -->
 
                 <!-- Display available operations -->
-
                 <div class="col-lg-12 mb-12">
 
                     <!-- Project Card Example -->
@@ -488,7 +487,9 @@ session_start();
 
                                 </tr>
                                 </thead>
-                                <tbody id="tbodyAvailable"></tbody>
+                                <tbody id="tbodyAvailable">
+
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -496,6 +497,40 @@ session_start();
 
                 </div>
                 <!-- End Display available operations -->
+
+                <!-- Display Operation done -->
+                <div class="col-lg-12 mb-12">
+
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4" id="displayOperationDone">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="displayOperationDoneHeader">Operation Done</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <table class="table" id="tableOperationDone">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Client's lastname</th>
+                                    <th>Client's firstname</th>
+                                    <th>Operation's ID</th>
+                                    <th>Description</th>
+                                    <th>Email</th>
+                                    <th>Creation date</th>
+                                    <th>Beginning of the Operation</th>
+                                    <th>End Of the operation</th>
+                                    <th>Type of operation</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyDone">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end of display operation Done-->
 
         </div>
             <!-- End of Main Content -->

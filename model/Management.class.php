@@ -180,8 +180,27 @@ class Management
 
     }
 
-    public static function endOperation() {
+    public static function endOperation($lastName, $firstName, $role, $id_operation) {
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
+        $currentDate = date('Y-m-d');
+
+        $req0 = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName AND role = :role");
+        $req0->execute(array(
+            'lastName' => $lastName,
+            'firstName' => $firstName,
+            'role' => $role
+        ));
+
+        $id_worker = $req0->fetch(PDO::FETCH_ASSOC);
+
+        $req2 = $dbi->prepare("UPDATE operations SET status = :status, date_end = :date_end WHERE id_worker= :id_worker AND id_operation = :id_operation ");
+        $req2->execute(array(
+            'status' => 'Done',
+            'date_end' => $currentDate,
+            'id_worker' => $id_worker['id_worker'],
+            'id_operation' =>$id_operation
+        ));
     } //vide
 
     public static function storeOperation() {
@@ -203,19 +222,43 @@ class Management
 
     }
 
-    public static function listOfOperationsInProgress() {
+    public static function listOfOperationsInProgress($lastName, $firstName, $role) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-        $req = $dbi->prepare("SELECT customers.firstName, customers.lastName, description, creation_date,id_type FROM  operations, customers WHERE status = :status AND customers.id_customer = operations.id_customer ORDER BY  customers.lastName, customers.firstName");
+        $req0 = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName AND role = :role");
+        $req0->execute(array(
+            'lastName' => $lastName,
+            'firstName' => $firstName,
+            'role' => $role
+        ));
+
+        $id_worker = $req0->fetch(PDO::FETCH_ASSOC);
+
+
+
+        //$req = $dbi->prepare("SELECT customers.firstName, customers.lastName, description, creation_date,id_type FROM  operations, customers WHERE status = :status AND customers.id_customer = operations.id_customer ORDER BY  customers.lastName, customers.firstName");
+        $req = $dbi->prepare("SELECT operations.id_operation, operations.description, operations.date_start, customers.firstName, customers.lastName
+        FROM customers, operations WHERE operations.id_worker = :id_worker AND customers.id_customer = operations.id_customer AND status = :status ");
         $req->execute(array(
-            'status' => 'Taken'
+            'status' => 'Taken',
+            'id_worker' => $id_worker['id_worker']
         ));
         return $listOfOperationsInProgress = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        // SELECT operations.id_operation, operations.description, operations.date_start,
+        // customers.firstName, customers.lastName FROM customers, operations
+        // WHERE operations.id_worker = 7 AND customers.id_customer = operations.id_customer AND operations.status = "Taken"
     }
 
     public static function listOfOperationsDone() {
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
+        $req = $dbi->prepare("SELECT lastName, firstName, description, email, creation_date,date_start, date_end,  type, id_operation FROM operations, customers, operation_type WHERE status = :status AND operations.id_customer = customers.id_customer AND operations.id_type = operation_type.id_type ORDER BY lastName, firstName");
+        $req->execute(array(
+            'status' => 'Done'
+        ));
+        return $listOfOperationsDone = $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function displayIncomesByMonth() {

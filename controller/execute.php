@@ -47,6 +47,7 @@ $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de d
 //    'lastName' => 'martin'
 //));
 
-print_r(Management::listOfOperationsAvailable());
+//print_r(Management::listOfOperationsInProgress('Leroy', 'Esteban', 'Expert'));
+Management::endOperation('Leroy', 'Esteban', 'Expert', 5);
 
 

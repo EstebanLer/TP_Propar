@@ -5,7 +5,9 @@ $(document).on('click', '#buttonCreateWorker', function (e) {
     $('#displayAvailableOperation').hide();
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide()
     $('#createWorker').fadeIn();
 });
 
@@ -16,7 +18,9 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $('#displayAvailableOperation').hide();
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide()
     $('#createOperation').fadeIn();
 });
 
@@ -28,7 +32,9 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $('#displayAvailableOperation').hide();
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide()
     $('#modifyRoleWorker').fadeIn();
 });
 
@@ -39,7 +45,9 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $('#modifyRoleWorker').hide();
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide()
     $('#displayAvailableOperation').fadeIn();
 });
 
@@ -51,7 +59,9 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide()
     $('#updateOperation').fadeIn();
 })
 
@@ -62,8 +72,23 @@ $(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
     $('#modifyRoleWorker').hide();
     $('#displayAvailableOperation').hide();
     $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
     $('#updateOperation').hide();
+    $('#displayOperationDone').hide()
     $('#displayInProgressOperation').fadeIn();
+})
+
+$('#displayOperationDone').hide()
+$(document).on('click', '#buttonDisplayDoneOperation', function (e) {
+    $('#createWorker').hide();
+    $('#createOperation').hide();
+    $('#modifyRoleWorker').hide();
+    $('#displayAvailableOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
+    $('#updateOperation').hide();
+    $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').fadeIn();
 })
 
 
@@ -189,7 +214,9 @@ $(document).ready(function () {
         });
     });
 
+
 });
+
 
 $(document).ready(function () {
         $.ajax({
@@ -249,4 +276,92 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
         }
     });
 });
+
+$(document).on('click', '#buttonDisplayDoneOperation', function (e) {
+
+    $.ajax({
+        url : '/TP_Propar/controller/displayOperationDone.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#tbodyDone").append("<tr id='trBody'></tr>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.id_operation + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.description + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.email + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.creation_date + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.date_start + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.date_end + "</td>")
+                $('#tableOperationDone tbody>tr:last').append("<td>" + element.type + "</td>")
+
+                $(document).ready( function () {
+                    $('#tableOperationDone').DataTable();
+                } );
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+});
+
+$(document).ready(function (e) {
+    $('#submitNewOperation').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayIncomesByYear.action.php',
+            type: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                $("#incomesByYear").html(data + " €")
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    });
+})
+
+$(document).ready(function (e) {
+    $('#submitUpdateOperation').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayIncomesByYear.action.php',
+            type: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                $("#incomesByYear").html(data + " €")
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    });
+})
+
+$(document).ready(function (e) {
+    $('#submitUpdateOperation').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayIncomesByMonth.action.php',
+            type: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                $("#incomesByMonth").html(data + " €")
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    });
+})
+
+
 

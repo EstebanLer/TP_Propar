@@ -561,6 +561,11 @@ mark,
   text-align: center;
 }
 
+#displayOperationDoneHeader {
+  margin: auto;
+  text-align: center;
+}
+
 
 code {
   font-size: 87.5%;
