@@ -504,6 +504,12 @@ mark,
   color: #858796;
 }
 
+#CompanyName {
+  margin: auto;
+  text-align: center;
+  color: white;
+}
+
 #createWorker {
   margin-top: 5%;
   margin-left: 5%;

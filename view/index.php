@@ -60,7 +60,7 @@ session_start();
 
       <!-- Heading -->
       <div class="sidebar-heading">
-          Administration Panel
+          <p id="CompanyName">PROPAR CLEANING COMPANY</p>
       </div>
 
 

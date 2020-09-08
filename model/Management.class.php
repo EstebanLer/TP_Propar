@@ -61,7 +61,7 @@ class Management
 
     }
 
-    public static function addOperation(Customers $customers, $type, $description, $dateStart) {
+    public static function addOperation($lastName, $firstName, $type, $description, $dateStart) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
@@ -76,8 +76,8 @@ class Management
 
         $id_select = $dbi->prepare("SELECT id_customer FROM customers WHERE lastName = :lastName AND firstName = :firstName");
         $id_select->execute(array(
-           'lastName' => $customers->getLastName(),
-           'firstName' => $customers->getFirstName()
+           'lastName' => $lastName,
+           'firstName' => $firstName
         ));
 
         $id_customer = $id_select->fetch(PDO::FETCH_ASSOC);

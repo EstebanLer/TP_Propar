@@ -39,14 +39,14 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Connectez-vous à votre espace utilisateur</h1>
                   </div>
-                  <form class="user" action="../controller/login.action.php" method="post">
+                  <form class="user" method="post">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" id="login" aria-describedby="login" name="username" placeholder="Login">
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
                     </div>
-                    <button class="btn btn-primary btn-user btn-block" type="submit" name="login">Login</button>
+                    <button class="btn btn-primary btn-user btn-block" type="submit" id="loginUser" name="login">Login</button>
                     <hr>
                   </form>
                 </div>
@@ -62,6 +62,7 @@
   <!-- Bootstrap core JavaScript-->
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
   <script src="startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/login.js"></script>
 
 </body>
 

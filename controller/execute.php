@@ -44,8 +44,28 @@ $operationType3 = new Operation_type(10000, "Grande");
 $currentMonth = date('m');
 //echo $currentMonth;
 
-//$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
-//
+$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+$req = $dbi->query("SELECT * FROM customers");
+$response = $req->fetchAll(PDO::FETCH_ASSOC);
+
+
+foreach ($response as $rep) {
+    var_dump($rep['email']);
+    if ("blablas@gmail.com" == $rep['email']) {
+        $found = true;
+        echo "true";
+    } else {
+        $found = false;
+        echo "false";
+    }
+}
+
+
+
+
+
+
 //$req = $dbi->query("SELECT id_type FROM operation_type");
 //
 //$response = $req->fetchAll(PDO::FETCH_ASSOC);
