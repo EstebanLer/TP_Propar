@@ -6,6 +6,8 @@ session_start();
 
 $_SESSION['user'] = "";
 $_SESSION['userRole'] = "";
+$_SESSION['userFirstName'] = "";
+$_SESSION['userLastName'] = "";
 
 if (isset($_POST)) {
     if (!empty($_POST['username']) && (!empty($_POST['password']))) {
@@ -26,6 +28,8 @@ if (isset($_POST)) {
         if ($result[0]['login'] == $_POST['username'] && $passwordVerify == true) {
             $_SESSION['user'] = $result[0]['firstName'] . " " . $result[0]['lastName'];
             $_SESSION['userRole'] = $result[0]['role'];
+            $_SESSION['userFirstName'] = $result[0]['firstName'];
+            $_SESSION['userLastName'] = $result[0]['lastName'];
             header("Location: ../view/index.php");
         } else {
             echo "Le login ou le mot de passe est incorrect";

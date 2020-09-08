@@ -61,7 +61,7 @@ class Management
 
     }
 
-    public static function addOperation(Customers $customers, $type, $description) {
+    public static function addOperation(Customers $customers, $type, $description, $dateStart) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
@@ -99,12 +99,13 @@ class Management
 
 
         /* On insère l'opération en bdd*/
-        $addOperationRequest = $dbi->prepare("INSERT INTO operations(description, creation_date, status, id_customer, id_type)
-                                                        VALUES (:description, :creation_date, :status, :id_customer, :id_type)");
+        $addOperationRequest = $dbi->prepare("INSERT INTO operations(description, creation_date, date_start, status, id_customer, id_type)
+                                                        VALUES (:description, :creation_date, :date_start, :status, :id_customer, :id_type)");
 
         $addOperationRequest->execute(array(
            'description' => iconv("UTF-8", "Windows-1252", $operation->getDescription()),
            'creation_date' => $currentDate,
+           'date_start' => $dateStart,
            'status' => $operation->getStatus(),
             'id_customer' => $id_customer['id_customer'],
             'id_type' => $id_operationType['id_type']
@@ -132,33 +133,34 @@ class Management
 
     }
 
-    public static function takeOperation(Workers $worker, $id) {
+    public static function takeOperation($lastName, $firstName, $role, $id_operation) {
 
         // TODO : Penser à ajouter une date de début
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
         /* On récupère l'id de l'employé */
-        $id_select = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName");
-        $id_select->execute(array(
-            'lastName' => $worker->getLastName(),
-            'firstName' => $worker->getFirstName()
+        $req0 = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName AND role = :role");
+        $req0->execute(array(
+            'lastName' => $lastName,
+            'firstName' => $firstName,
+            'role' => $role
         ));
 
-        $id_worker = $id_select->fetch(PDO::FETCH_ASSOC);
+        $id_worker = $req0->fetch(PDO::FETCH_ASSOC);
 
         /* On vient l'ajouter dans l'opération et on passe son status à "taken" dans la bdd*/
         $modify = $dbi->prepare("UPDATE operations SET id_worker = :id_worker, status = :status  WHERE id_operation = :id_operation");
         $modify->execute(array(
             'id_worker' => $id_worker['id_worker'],
             'status' => 'Taken',
-            'id_operation' => $id
+            'id_operation' => $id_operation
 
         ));
 
     }
 
-    public static function updateOperation($firstName, $lastName, $id_operation, $newDescription) {
+    public static function updateOperation($firstName, $lastName, $id_Type, $newDescription , $id_operation) {
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
 //        $req = $dbi->prepare("SELECT id_customer FROM customers WHERE firstName = :firstname AND lastName = :lastName");
@@ -171,11 +173,12 @@ class Management
 
         $id_client = $req->fetch(PDO::FETCH_ASSOC);
 
-        $req2 = $dbi->prepare("UPDATE operations SET id_type = :id_type, description = :description WHERE id_customer = :id_customer ");
+        $req2 = $dbi->prepare("UPDATE operations SET id_type = :id_type, description = :description WHERE id_customer = :id_customer AND id_operation = :id_operation ");
         $req2->execute(array(
             'id_customer' => $id_client['id_customer'],
-            'id_type' => $id_operation,
-            'description' => $newDescription
+            'id_type' => $id_Type,
+            'description' => $newDescription,
+            'id_operation' => $id_operation
         ));
 
     }
@@ -201,11 +204,8 @@ class Management
             'id_worker' => $id_worker['id_worker'],
             'id_operation' =>$id_operation
         ));
-    } //vide
+    }
 
-    public static function storeOperation() {
-
-    } //vide
 
     public static function listOfOperationsAvailable() {
 
@@ -238,8 +238,8 @@ class Management
 
 
         //$req = $dbi->prepare("SELECT customers.firstName, customers.lastName, description, creation_date,id_type FROM  operations, customers WHERE status = :status AND customers.id_customer = operations.id_customer ORDER BY  customers.lastName, customers.firstName");
-        $req = $dbi->prepare("SELECT operations.id_operation, operations.description, operations.date_start, customers.firstName, customers.lastName
-        FROM customers, operations WHERE operations.id_worker = :id_worker AND customers.id_customer = operations.id_customer AND status = :status ");
+        $req = $dbi->prepare("SELECT operations.id_operation, operations.description, operations.date_start, customers.firstName, customers.lastName, type
+        FROM customers, operations, operation_type WHERE operations.id_worker = :id_worker AND customers.id_customer = operations.id_customer AND status = :status AND operations.id_type = operation_type.id_type");
         $req->execute(array(
             'status' => 'Taken',
             'id_worker' => $id_worker['id_worker']

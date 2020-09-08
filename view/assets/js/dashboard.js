@@ -6,8 +6,10 @@ $(document).on('click', '#buttonCreateWorker', function (e) {
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide()
     $('#createWorker').fadeIn();
 });
 
@@ -19,8 +21,10 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide()
     $('#createOperation').fadeIn();
 });
 
@@ -33,8 +37,10 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide()
     $('#modifyRoleWorker').fadeIn();
 });
 
@@ -46,8 +52,10 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $('#updateOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide()
     $('#displayAvailableOperation').fadeIn();
 });
 
@@ -60,8 +68,10 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
     $('#displayAvailableOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide();
     $('#updateOperation').fadeIn();
 })
 
@@ -73,8 +83,10 @@ $(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
     $('#displayAvailableOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#updateOperation').hide();
     $('#displayOperationDone').hide()
+    $('#addOperationType').hide()
     $('#displayInProgressOperation').fadeIn();
 })
 
@@ -86,11 +98,27 @@ $(document).on('click', '#buttonDisplayDoneOperation', function (e) {
     $('#displayAvailableOperation').hide();
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
     $('#updateOperation').hide();
     $('#displayInProgressOperation').hide();
+    $('#addOperationType').hide()
     $('#displayOperationDone').fadeIn();
 })
 
+$('#addOperationType').hide()
+$(document).on('click', '#buttonAddOperationType', function (e) {
+    $('#createWorker').hide();
+    $('#createOperation').hide();
+    $('#modifyRoleWorker').hide();
+    $('#displayAvailableOperation').hide();
+    $("#tbodyAvailable").empty();
+    $('#tbodyDone').empty();
+    $('#tbodyProgress').empty();
+    $('#updateOperation').hide();
+    $('#displayInProgressOperation').hide();
+    $('#displayOperationDone').hide();
+    $('#addOperationType').fadeIn();
+})
 
 
 $(document).ready(function () {
@@ -139,6 +167,7 @@ $(document).ready(function () {
                 email : $('#clientEmail').val(),
                 type : $('#type').val(),
                 description : $('#description').val(),
+                date_start : $('#dateBegin').val()
 
             },
             success:function () {
@@ -185,7 +214,8 @@ $(document).ready(function () {
                 firstName : $('#clientFirstNameUpdate').val(),
                 lastName : $('#clientLastNameUpdate').val(),
                 typeUpdate : $('#typeUpdate').val(),
-                description : $('#updateDescription').val()
+                description : $('#updateDescription').val(),
+                id_operation : $('#updateOperationID').val()
 
             },
             success:function () {
@@ -198,24 +228,9 @@ $(document).ready(function () {
         $("#updateForm")[0].reset();
     });
 
-    $('#submitNewOperation').click(function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            url : '/TP_Propar/controller/displayIncomesByMonth.action.php',
-            type: 'POST',
-            dataType : 'json',
-            success:function (data) {
-                $("#incomesByMonth").html(data + " €")
-            },
-            error:function () {
-                alert('erreur')
-            }
-        });
-    });
-
-
 });
+
+
 
 
 $(document).ready(function () {
@@ -328,6 +343,25 @@ $(document).ready(function (e) {
 })
 
 $(document).ready(function (e) {
+    $('#submitNewOperation').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayIncomesByMonth.action.php',
+            type: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                $("#incomesByMonth").html(data + " €")
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+
+    });
+})
+
+$(document).ready(function (e) {
     $('#submitUpdateOperation').click(function (e) {
         e.preventDefault();
 
@@ -364,4 +398,173 @@ $(document).ready(function (e) {
 })
 
 
+$(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
+
+    $.ajax({
+        url : '/TP_Propar/controller/displayInProgressOperation.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#tbodyProgress").append("<tr id='trBody'></tr>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.id_operation + "</td>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.type + "</td>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.description + "</td>")
+                $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.date_start + "</td>")
+
+                $(document).ready( function () {
+                    $('#tableOperationInProgress').DataTable();
+                } );
+
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+});
+
+$(document).ready(function (e) {
+    $('#addOperationTypeSubmit').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/addOperationType.action.php',
+            type: 'POST',
+            data: {
+                // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
+                type : $('#typeOperation').val(),
+                price : $('#typeOperationPrice').val(),
+            },
+            success:function () {
+                alert("Le type d'opération a été ajouté à la BDD");
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+        $("#addOperationTypeForm")[0].reset();
+    });
+})
+
+$(document).ready(function (e) {
+    $('#endAnOperationSubmit').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/endOperation.action.php',
+            type: 'POST',
+            data: {
+                // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
+                id_operation : $('#doneOperationId').val()
+            },
+            success:function () {
+                alert("Vous avez cloturé l'opération");
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+        $("#endOperationForm")[0].reset();
+    })
+})
+
+$(document).ready(function (e) {
+    $('#endAnOperationSubmit').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayInProgressOperation.action.php',
+            method: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                data.forEach(element => {
+                    $("#tbodyProgress").append("<tr id='trBody'></tr>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.id_operation + "</td>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.type + "</td>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.description + "</td>")
+                    $('#tableOperationInProgress tbody>tr:last').append("<td>" + element.date_start + "</td>")
+
+                    $(document).ready( function () {
+                        $('#tableOperationInProgress').DataTable();
+                    } );
+
+                })
+
+                // pour chaque tr il faut ajouter des td
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    })
+})
+
+$(document).ready(function (e) {
+    $('#takeAnOperationSubmit').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/TakeOperation.action.php',
+            type: 'POST',
+            data: {
+                // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
+                id_operation : $('#operationId').val()
+            },
+            success:function () {
+                alert("Vous avez pris l'opération");
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+        $("#takeAnOperationSubmit")[0].reset();
+    })
+})
+
+$(document).on('click', '#buttonCreateOperation', function (e) {
+
+    $.ajax({
+        url : '/TP_Propar/controller/howManyType.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#type").append("<option>" + element.type + "</option>")
+
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+});
+
+$(document).on('click', '#buttonUpdateOperation', function (e) {
+
+    $.ajax({
+        url : '/TP_Propar/controller/howManyIdOperationType.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#typeUpdate").append("<option>" + element.id_type + "</option>")
+
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+});
 

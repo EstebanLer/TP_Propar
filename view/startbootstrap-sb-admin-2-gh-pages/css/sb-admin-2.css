@@ -521,9 +521,21 @@ mark,
   margin-right: 5%;
 }
 
+
 #createOperationHeader {
   margin: auto;
   text-align: center;
+}
+
+#addOperationTypeHeader {
+  margin: auto;
+  text-align: center;
+}
+
+#addOperationType {
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 #modifyRoleWorker {
@@ -537,6 +549,15 @@ mark,
   text-align: center;
 }
 
+#endAnOperationHeader {
+  margin: auto;
+  text-align: center;
+}
+
+#takeAnOperationHeader {
+  margin: auto;
+  text-align: center;
+}
 
 #displayAvailableOperationHeader {
   margin: auto;

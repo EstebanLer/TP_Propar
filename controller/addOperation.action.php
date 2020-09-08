@@ -11,5 +11,5 @@ require_once '../model/Management.class.php';
 
     Management::createCustomers($customer);
 
-    Management::addOperation($customer, $_POST['type'], $_POST['description']);
+    Management::addOperation($customer, $_POST['type'], $_POST['description'], $_POST['date_start']);
 

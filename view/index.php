@@ -82,6 +82,13 @@ session_start();
             </a>
             <hr class="sidebar-divider my-0">
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" id="buttonAddOperationType">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Add an operation type</span>
+            </a>
+            <hr class="sidebar-divider my-0">
+        </li>
         <?php }
         }?>
 
@@ -109,20 +116,6 @@ session_start();
             <a class="nav-link collapsed" href="#" id="buttonDisplayInProgressOperation">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Display in progress operations</span>
-            </a>
-            <hr class="sidebar-divider my-0">
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" id="buttonTakeOperation">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Take an operation</span>
-            </a>
-            <hr class="sidebar-divider my-0">
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" id="buttonEndOperation">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>End Operation</span>
             </a>
             <hr class="sidebar-divider my-0">
         </li>
@@ -352,10 +345,12 @@ session_start();
                                 <div class="form-group col-md-1">
                                     <label for="type">Type</label>
                                     <select class="form-control" id="type" name="type">
-                                        <option>Petite</option>
-                                        <option>Moyenne</option>
-                                        <option>Grande</option>
+                                        <!-- Ajouter ici un select modulable au cas où si on rajoute des types d'operation -->
                                     </select>
+                                </div>
+                                <div class="form-group col-md-2" >
+                                    <label for="dateBegin">Date of beginning</label>
+                                    <input type="text" class="form-control" id="dateBegin" name="dateBegin" placeholder="2020-01-01">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="description">Operation's description</label>
@@ -366,6 +361,30 @@ session_start();
                         </form>
                     </div>
                 </div>
+
+                <!-- Add operation type -->
+                <div class="card shadow mb-4" id="addOperationType">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary" id="addOperationTypeHeader">Add a new operation type</h6>
+                        <hr class="sidebar-divider my-0">
+                        <br>
+                        <form  method="post" id="addOperationTypeForm">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="typeOperation">Type</label>
+                                    <input type="text" class="form-control" id="typeOperation" name="typeOperation">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="typeOperationPrice">Price</label>
+                                    <input type="text" class="form-control" id="typeOperationPrice" name="typeOperationPrice" placeholder="15000">
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="addOperationTypeSubmit">Add a new operation type</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- End add operation type -->
 
                 <!-- Update operation -->
 
@@ -384,12 +403,14 @@ session_start();
                                     <label for="clientLastNameUpdate">Client last name</label>
                                     <input type="text" class="form-control" id="clientLastNameUpdate" name="lastName" placeholder="Client last name here ...">
                                 </div>
-                                <div class="form-group col-md-1">
+                                <div class="form-group col-md-2">
+                                    <label for="updateOperationID">Operation's ID</label>
+                                    <input type="text" class="form-control" id="updateOperationID" name="updateOperationID">
+                                </div>
+                                <div class="form-group col-md-2">
                                     <label for="typeUpdate">Type</label>
+                                    <!-- Ajouter ici un select modulable au cas où si on rajoute des types d'operation -->
                                     <select class="form-control" id="typeUpdate" name="typeUpdate">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -457,7 +478,41 @@ session_start();
                             <h6 class="m-0 font-weight-bold text-primary" id="displayInProgressOperationHeader">Operation in progress</h6>
                             <hr class="sidebar-divider my-0">
                             <br>
+                            <table class="table" id="tableOperationInProgress">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Client's lastname</th>
+                                    <th>Client's firstname</th>
+                                    <th>Operation's ID</th>
+                                    <th>Type of operation</th>
+                                    <th>Description</th>
+                                    <th>Beginning of the Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyProgress">
 
+                                </tbody>
+                            </table>
+                            <?php if (!empty($_SESSION['userRole'])) {
+                            if ($_SESSION['userRole'] == "Expert" || $_SESSION['userRole'] == "Senior" || $_SESSION['userRole'] == "Junior") { ?>
+                            <br>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <h6 class="m-0 font-weight-bold text-primary" id="endAnOperationHeader">End an operation</h6>
+                            <br>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <form id="endOperationForm" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <label for="doneOperationId">Operation's ID</label>
+                                        <input type="text" class="form-control" id="doneOperationId" name="doneOperationId">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="endAnOperationSubmit">End an operation</button>
+                            </form>
+                            <?php }
+                            }?>
                         </div>
                     </div>
 
@@ -491,6 +546,26 @@ session_start();
 
                                 </tbody>
                             </table>
+                            <?php if (!empty($_SESSION['userRole'])) {
+                            if ($_SESSION['userRole'] == "Expert" || $_SESSION['userRole'] == "Senior" || $_SESSION['userRole'] == "Junior") { ?>
+                            <br>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <h6 class="m-0 font-weight-bold text-primary" id="takeAnOperationHeader">Take an operation</h6>
+                            <br>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <form id="takeAnOperationForm" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <label for="operationId">Operation's ID</label>
+                                        <input type="text" class="form-control" id="operationId" name="operationId">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="takeAnOperationSubmit">Take an operation</button>
+                            </form>
+                            <?php }
+                            }?>
                         </div>
                     </div>
 
@@ -535,8 +610,8 @@ session_start();
         </div>
             <!-- End of Main Content -->
 
-  </div>
-  <!-- End of Page Wrapper -->
+      </div>
+      <!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">

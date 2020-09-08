@@ -5,6 +5,11 @@ require_once '../model/Operation_type.class.php';
 require_once '../model/Management.class.php';
 require_once '../model/dbSingleton.class.php';
 
+
+// Login = admin1 mdp = admin
+// Login = coco mdp = azerty
+
+
 $dateHiring = new DateTime("2020-09-01");
 
 
@@ -39,7 +44,13 @@ $operationType3 = new Operation_type(10000, "Grande");
 $currentMonth = date('m');
 //echo $currentMonth;
 
-$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+//$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+//
+//$req = $dbi->query("SELECT id_type FROM operation_type");
+//
+//$response = $req->fetchAll(PDO::FETCH_ASSOC);
+//
+//print_r($response);
 
 //$req = $dbi->prepare("SELECT id_customer FROM customers WHERE firstName = :firstname AND lastName = :lastName");
 //$req->execute(array(
@@ -48,6 +59,6 @@ $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de d
 //));
 
 //print_r(Management::listOfOperationsInProgress('Leroy', 'Esteban', 'Expert'));
-Management::endOperation('Leroy', 'Esteban', 'Expert', 5);
+//Management::endOperation('Leroy', 'Esteban', 'Expert', 4);
 
 
