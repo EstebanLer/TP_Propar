@@ -11,16 +11,25 @@ $_SESSION['userLastName'] = "";
 
     if (!empty($_POST['username']) && (!empty($_POST['password']))) {
 
-        // TODO : Faire le control pour voir si l'usernme existe bel est bien (return true) sinon return false
-
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
-        $req = $dbi->prepare("SELECT login, password, firstName, lastName, role FROM workers WHERE login = :login");
 
-        $req->execute(array(
-            'login' => $_POST['username'],
-        ));
+        $req0 = $dbi->query("SELECT login FROM workers");
+        $response = $req0->fetchAll(PDO::FETCH_ASSOC);
 
-        $result = $req->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($response as $rep) {
+            if ($_POST['username'] == $rep['login']) {
+                $loginExist = true;
+            }
+        }
+
+        if (isset($loginExist)) {
+            $req = $dbi->prepare("SELECT login, password, firstName, lastName, role FROM workers WHERE login = :login");
+
+            $req->execute(array(
+                'login' => $_POST['username'],
+            ));
+
+            $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
             $passwordVerify = password_verify($_POST['password'], $result[0]['password']);
@@ -37,8 +46,10 @@ $_SESSION['userLastName'] = "";
                 $errorMsg['return'] = false;
                 echo json_encode($errorMsg);
             }
-
-
+        } else {
+            $errorMsg['bad'] = false;
+            echo json_encode($errorMsg);
+        }
      } else {
         $errorMsg['empty'] = false;
         echo json_encode($errorMsg);

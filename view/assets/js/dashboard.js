@@ -7,6 +7,8 @@ $(document).on('click', '#buttonCreateWorker', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -22,6 +24,8 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -38,6 +42,8 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -53,6 +59,8 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -69,6 +77,8 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide();
@@ -84,6 +94,8 @@ $(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#updateOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -99,6 +111,8 @@ $(document).on('click', '#buttonDisplayDoneOperation', function (e) {
     $("#tbodyAvailable").empty();
     $('#tbodyDone').empty();
     $('#tbodyProgress').empty();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#updateOperation').hide();
     $('#displayInProgressOperation').hide();
     $('#addOperationType').hide()
@@ -117,6 +131,8 @@ $(document).on('click', '#buttonAddOperationType', function (e) {
     $('#updateOperation').hide();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide();
+    $('#type').empty();
+    $("#typeUpdate").empty();
     $('#addOperationType').fadeIn();
 })
 
@@ -129,6 +145,7 @@ $(document).ready(function () {
         $.ajax({
             url : '/TP_Propar/controller/createWorker.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 login : $("#login").val(),
                 password : $("#password").val(),
@@ -140,14 +157,29 @@ $(document).ready(function () {
             },
             success:function (data) {
 
-                alert("L'employé a été créé");
+                if (data.workerExist === true) {
+                    alert("L'employé a été créé");
+                    $("#createWorkerForm")[0].reset();
+                }
 
+                if (data.badEmail === false) {
+                    alert("l'email est invalide");
+                }
+
+                if (data.empty === false) {
+                    alert("Veuillez remplir les champs");
+                }
+
+                if (data.workerExist === false) {
+                    alert("L'employé existe déjà");
+                    $("#createWorkerForm")[0].reset();
+                }
             },
             error:function () {
-                alert('Un employé existe déjà ')
+                alert('erreur')
             }
         });
-        $("#createWorkerForm")[0].reset();
+
 
     });
 
@@ -157,6 +189,7 @@ $(document).ready(function () {
         $.ajax({
             url : '/TP_Propar/controller/addOperation.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 firstName : $('#clientFirstName').val(),
                 lastName : $('#clientLastName').val(),
@@ -170,14 +203,29 @@ $(document).ready(function () {
                 date_start : $('#dateBegin').val()
 
             },
-            success:function () {
-                alert("L'opération a été ajouté avec succès");
+            success:function (data) {
+
+                if (data.successOp === true) {
+                    alert("L'opération a été ajouté avec succès");
+                    $("#addOperationForm")[0].reset();
+                }
+
+                if (data.badEmail === false) {
+                    alert("L'email saisie est invalide")
+                }
+
+                if (data.nan === false) {
+                    alert("Veuillez un numéro de rue valide !")
+                }
+
+                if (data.empty === false) {
+                    alert("Veuillez saisir les champs")
+                }
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#addOperationForm")[0].reset();
     });
 
     $('#submitModifyRoleWorker').click(function (e) {
@@ -185,6 +233,7 @@ $(document).ready(function () {
 
         $.ajax({
             url : '/TP_Propar/controller/modifyWorkersRole.php',
+            dataType : 'json',
             type: 'POST',
             data: {
                 firstName : $('#workerFirstName').val(),
@@ -193,14 +242,31 @@ $(document).ready(function () {
                 role : $('#modifyRole').val()
 
             },
-            success:function () {
-                alert("Le rôle a été modifié");
+            success:function (data) {
+                if (data.success === true) {
+                    alert("Le rôle a été modifié");
+                    $("#modifyRoleWorkerForm")[0].reset();
+                }
+
+                if (data.success === false) {
+                    alert("L'employé n'existe pas");
+                    $("#modifyRoleWorkerForm")[0].reset();
+                }
+
+                if (data.nan === false) {
+                    alert("Veuillez renseigner un nombre pour 'Worker's ID'")
+                }
+
+                if (data.empty === false) {
+                    alert("Veuillez remplir tous les champs")
+                }
+
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#modifyRoleWorkerForm")[0].reset();
+
     });
 
     $('#submitUpdateOperation').click(function (e) {
@@ -435,19 +501,38 @@ $(document).ready(function (e) {
         $.ajax({
             url : '/TP_Propar/controller/addOperationType.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
                 type : $('#typeOperation').val(),
                 price : $('#typeOperationPrice').val(),
             },
-            success:function () {
-                alert("Le type d'opération a été ajouté à la BDD");
+            success:function (data) {
+
+                if (data.success === true) {
+                    alert("Le type d'opération a été ajouté à la BDD");
+                    $("#addOperationTypeForm")[0].reset();
+                }
+
+                if (data.success === false) {
+                    alert("Veuillez remplir les champs");
+                }
+
+                if (data.nan === false) {
+                    alert("Veuillez saisir des chiffres pour le prix !");
+                }
+
+                if (data.exist === false) {
+                    alert("Le type d'opération est déjà présent en BDD");
+                    $("#addOperationTypeForm")[0].reset();
+                }
+
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#addOperationTypeForm")[0].reset();
+
     });
 })
 

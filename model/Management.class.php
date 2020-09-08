@@ -113,22 +113,16 @@ class Management
 
     }
 
-    public static function modifyRoleWorkers($firstName, $lastName, $newRole) {
+    public static function modifyRoleWorkers($firstName, $lastName, $newRole, $id_worker) {
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-        $id_select = $dbi->prepare("SELECT id_worker FROM workers WHERE lastName = :lastName AND firstName = :firstName");
-        $id_select->execute(array(
-            'lastName' => $lastName,
-            'firstName' => $firstName
-        ));
-
-        $id_worker = $id_select->fetch(PDO::FETCH_ASSOC);
-
-        $modify = $dbi->prepare("UPDATE workers SET role = :role WHERE id_worker = :id_worker");
+        $modify = $dbi->prepare("UPDATE workers SET role = :role WHERE id_worker = :id_worker AND firstName = :firstName AND lastName = :lastName");
         $modify->execute(array(
             'role' => $newRole,
-            'id_worker' => $id_worker['id_worker']
+            'id_worker' => $id_worker,
+            'firstName' => $firstName,
+            'lastName' => $lastName
         ));
 
     }
@@ -290,4 +284,6 @@ class Management
         return implode(" ",$response );
 
     }
+
+    // $sql = "SELECT COUNT(id_operation) FROM workers, operations WHERE workers.id_worker = operations.id_worker AND workers.id_worker = 7 AND status = \"Taken\"";
 }

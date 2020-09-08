@@ -46,26 +46,30 @@ $currentMonth = date('m');
 
 $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-$req = $dbi->query("SELECT * FROM customers");
-$response = $req->fetchAll(PDO::FETCH_ASSOC);
+//$req = $dbi->query("SELECT login FROM workers");
+//$response = $req->fetchAll(PDO::FETCH_ASSOC);
+//
+//
+//foreach ($response as $rep) {
+//    if ("duhdhuzhd" == $rep['login']) {
+//        $loginExist = true;
+//    }
+//}
+//
+//if (isset($loginExist)) {
+//    echo "il existe !";
+//} else {
+//    echo "N'existe pas !";
+//}
 
-
-foreach ($response as $rep) {
-    var_dump($rep['email']);
-    if ("blablas@gmail.com" == $rep['email']) {
-        $found = true;
-        echo "true";
-    } else {
-        $found = false;
-        echo "false";
-    }
-}
-
-
-
-
-
-
+//$req = $dbi->prepare("SELECT firstName, lastName, login FROM workers WHERE login= :login");
+//$req->execute(array(
+//    'login' => "admin1",
+//));
+//
+//$worker = $req->fetch(PDO::FETCH_ASSOC);
+//
+//print_r($worker);
 //$req = $dbi->query("SELECT id_type FROM operation_type");
 //
 //$response = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -80,5 +84,11 @@ foreach ($response as $rep) {
 
 //print_r(Management::listOfOperationsInProgress('Leroy', 'Esteban', 'Expert'));
 //Management::endOperation('Leroy', 'Esteban', 'Expert', 4);
+
+if (filter_var("blalbla", FILTER_VALIDATE_INT)) {
+    echo "C'est un chiffre";
+} else {
+    echo "Ce n'est pas un nombre !!";
+}
 
 

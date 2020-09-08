@@ -11,16 +11,20 @@ $(document).on('click', "#loginUser" ,function (e) {
             username : $('#login').val()
         },
         success : function (data) {
-            if (data.empty == false) {
-                alert("Veuillez remplir les champs")
+
+            if (data.bad === false) {
+                alert("Le login n'est pas reconnu")
             }
 
-            if (data.return == false){
+            if (data.return === false){
                 alert("Mot de passe incorrect")
             }
 
+            if (data.empty === false) {
+                alert("Veuillez remplir les champs")
+            }
 
-            if (data.return == true) {
+            if (data.return === true) {
                 window.location.href = "index.php";
             }
 
