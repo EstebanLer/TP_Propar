@@ -286,4 +286,14 @@ class Management
     }
 
     // $sql = "SELECT COUNT(id_operation) FROM workers, operations WHERE workers.id_worker = operations.id_worker AND workers.id_worker = 7 AND status = \"Taken\"";
+
+    public static function displayAllWorkers() {
+
+        $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+
+        $req = $dbi->query("SELECT id_worker, firstName, lastName, role, birthday, hiring_date, email FROM workers");
+
+        return $response = $req->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

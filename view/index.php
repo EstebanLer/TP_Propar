@@ -432,7 +432,30 @@ session_start();
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4" id="modifyRoleWorker">
                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="displayWorkersHeader">Worker's list</h6>
+                            <hr class="sidebar-divider my-0">
+                            <br>
+                            <table class="table" id="tableWorkers">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Worker's ID</th>
+                                    <th>Worker's firstname</th>
+                                    <th>Worker's lastname</th>
+                                    <th>Role</th>
+                                    <th>Birthday</th>
+                                    <th>Hiring date</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyWorkers">
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <hr class="sidebar-divider my-0">
+                            <br>
                             <h6 class="m-0 font-weight-bold text-primary" id="modifyWorkerHeader">Modify worker's role</h6>
+                            <br>
                             <hr class="sidebar-divider my-0">
                             <br>
                             <form id="modifyRoleWorkerForm" method="post">

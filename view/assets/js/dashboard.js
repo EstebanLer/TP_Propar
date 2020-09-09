@@ -9,6 +9,7 @@ $(document).on('click', '#buttonCreateWorker', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -26,6 +27,7 @@ $(document).on('click', '#buttonCreateOperation', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -44,6 +46,7 @@ $(document).on('click', '#buttonWorkersRole', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -61,6 +64,7 @@ $(document).on('click', '#buttonDisplayAvailableOperation', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -79,6 +83,7 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#displayInProgressOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide();
@@ -96,6 +101,7 @@ $(document).on('click', '#buttonDisplayInProgressOperation', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#updateOperation').hide();
     $('#displayOperationDone').hide()
     $('#addOperationType').hide()
@@ -113,6 +119,7 @@ $(document).on('click', '#buttonDisplayDoneOperation', function (e) {
     $('#tbodyProgress').empty();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#updateOperation').hide();
     $('#displayInProgressOperation').hide();
     $('#addOperationType').hide()
@@ -133,6 +140,7 @@ $(document).on('click', '#buttonAddOperationType', function (e) {
     $('#displayOperationDone').hide();
     $('#type').empty();
     $("#typeUpdate").empty();
+    $("#tbodyWorkers").empty();
     $('#addOperationType').fadeIn();
 })
 
@@ -240,7 +248,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-            url : '/TP_Propar/controller/modifyWorkersRole.php',
+            url : '/TP_Propar/controller/modifyWorkersRole.action.php',
             dataType : 'json',
             type: 'POST',
             data: {
@@ -257,8 +265,11 @@ $(document).ready(function () {
                 }
 
                 if (data.success === false) {
-                    alert("L'employé n'existe pas");
-                    $("#modifyRoleWorkerForm")[0].reset();
+                    alert("L'ID ne correspond pas");
+                }
+
+                if (data.userExist === false) {
+                    alert("Le nom ou prénom du worker ne correspondent pas")
                 }
 
                 if (data.nan === false) {
@@ -755,4 +766,69 @@ $(document).on('click', '#buttonUpdateOperation', function (e) {
         }
     });
 });
+
+$(document).on('click', '#buttonWorkersRole', function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        url : '/TP_Propar/controller/displayAllWorkers.action.php',
+        method: 'POST',
+        dataType : 'json',
+        success:function (data) {
+            data.forEach(element => {
+                $("#tbodyWorkers").append("<tr id='trBody'></tr>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.id_worker + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.role + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.birthday + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.hiring_date + "</td>")
+                $('#tableWorkers tbody>tr:last').append("<td>" + element.email + "</td>")
+
+                $(document).ready( function () {
+                    $('#tableWorkers').DataTable();
+                } );
+            })
+
+            // pour chaque tr il faut ajouter des td
+        },
+        error:function () {
+            alert('erreur')
+        }
+    });
+})
+
+// $(document).ready(function (e) {
+//     $('#submitModifyRoleWorker').click(function (e) {
+//         e.preventDefault();
+//
+//         $.ajax({
+//             url : '/TP_Propar/controller/displayAllWorkers.action.php',
+//             method: 'POST',
+//             dataType : 'json',
+//             success:function (data) {
+//                 data.forEach(element => {
+//                     $("#tbodyWorkers").append("<tr id='trBody'></tr>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.id_worker + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.firstName + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.lastName + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.role + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.birthday + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.hiring_date + "</td>")
+//                     $('#tableWorkers tbody>tr:last').append("<td>" + element.email + "</td>")
+//
+//                     $(document).ready( function () {
+//                         $('#tableWorkers').DataTable();
+//                     } );
+//
+//                 })
+//
+//                 // pour chaque tr il faut ajouter des td
+//             },
+//             error:function () {
+//                 alert('erreur')
+//             }
+//         });
+//     })
+// })
 

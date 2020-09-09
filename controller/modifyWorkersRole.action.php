@@ -15,19 +15,31 @@ if (!empty($_POST['firstName']) && !empty($_POST['lastName']) && !empty($_POST['
 
 
         foreach ($response as $rep) {
+            if ($_POST['firstName'] == $rep['firstName'] && $_POST['lastName'] === $rep['lastName']) {
+                $userExist = true;
+            }
+        }
+
+        foreach ($response as $rep) {
             if ($_POST['id_worker'] == $rep['id_worker']) {
                 $idExist = true;
             }
         }
 
-        if (isset($idExist)) {
-            Management::modifyRoleWorkers($_POST['firstName'], $_POST['lastName'], $_POST['role'], $_POST['id_worker']);
-            $errorMsg['success'] = true;
-            echo json_encode($errorMsg);
-        }  else {
-            $errorMsg['success'] = false;
+        if (isset($userExist)) {
+            if (isset($idExist)) {
+                Management::modifyRoleWorkers($_POST['firstName'], $_POST['lastName'], $_POST['role'], $_POST['id_worker']);
+                $errorMsg['success'] = true;
+                echo json_encode($errorMsg);
+            }  else {
+                $errorMsg['success'] = false;
+                echo json_encode($errorMsg);
+            }
+        } else {
+            $errorMsg['userExist'] = false;
             echo json_encode($errorMsg);
         }
+
     } else {
         $errorMsg['nan'] = false;
         echo json_encode($errorMsg);

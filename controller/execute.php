@@ -139,4 +139,8 @@ if ($date < $currentDate) {
     echo "date ulterieur";
 }
 
+$allWorkers = Management::displayAllWorkers();
+
+print_r($allWorkers);
+
 
