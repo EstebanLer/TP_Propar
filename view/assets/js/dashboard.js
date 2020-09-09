@@ -666,6 +666,10 @@ $(document).ready(function (e) {
                     $("#takeAnOperationForm")[0].reset();
                 }
 
+                if (data.idExist === false) {
+                    alert("L'ID n'existe pas")
+                }
+
                 if (data.success === false) {
                     alert("Vous ne pouvez pas prendre plus d'opérations");
                     $("#takeAnOperationForm")[0].reset();
