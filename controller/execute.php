@@ -127,20 +127,28 @@ $currentMonth = date('m');
 //}
 
 
-$myDateString = "2020-09-15";
-$date = date($myDateString);
+//$myDateString = "2020-09-15";
+//$date = date($myDateString);
+//
+//$currentDate = date("Y-m-d");
+//
+//
+//if ($date < $currentDate) {
+//    echo "date antérieur";
+//} else {
+//    echo "date ulterieur";
+//}
+//
+//$allWorkers = Management::displayAllWorkers();
+//
+//print_r($allWorkers);
 
-$currentDate = date("Y-m-d");
-
-
-if ($date < $currentDate) {
-    echo "date antérieur";
-} else {
-    echo "date ulterieur";
-}
-
-$allWorkers = Management::displayAllWorkers();
-
-print_r($allWorkers);
-
+//$password = "admin";
+//
+//$passwordHash = password_hash($password, PASSWORD_BCRYPT, array("cost" => 12));
+//
+//
+//
+//Management::createIdWorkers("Esteban", "Leroy", "Expert", "1995-02-15", "leroy.esteban15@gmail.com", "admin1", $passwordHash);
+//
 

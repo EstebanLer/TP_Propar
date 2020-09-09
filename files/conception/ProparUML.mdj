@@ -2039,6 +2039,26 @@
 									"model": {
 										"$ref": "AAAAAAF0ROZWxG72DNY="
 									},
+									"subViews": [
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAF0crMhpCbpCUU=",
+											"_parent": {
+												"$ref": "AAAAAAF0ROZWxG7+0xU="
+											},
+											"model": {
+												"$ref": "AAAAAAF0crMhjCbgISE="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 37,
+											"top": 102,
+											"width": 355.57666015625,
+											"height": 13,
+											"text": "+Attribute1",
+											"horizontalAlignment": 0
+										}
+									],
 									"font": "Arial;13;0",
 									"left": 32,
 									"top": 97,
@@ -2070,7 +2090,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+createIdWorkers(login, password, role, firstName, lastName)",
+											"text": "+createIdWorkers()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2088,7 +2108,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+modifyRoleWorkers(role)",
+											"text": "+modifyRoleWorkers()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2106,7 +2126,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+updateOperation(newType)",
+											"text": "+updateOperation()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2124,7 +2144,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+displaySales()",
+											"text": "+displayIncomesByMonth()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2142,7 +2162,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+storeOperations()",
+											"text": "+displayIncomesByYear()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2160,7 +2180,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+createCustomers(firstName, lastName, email)",
+											"text": "+createCustomers(l)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2250,7 +2270,7 @@
 											"width": 355.57666015625,
 											"height": 13,
 											"underline": true,
-											"text": "+listOfOperationsInProgress(id_workers)",
+											"text": "+listOfOperationsInProgress()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2287,13 +2307,30 @@
 											"height": 13,
 											"text": "+addOperationType()",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF0crM9ySduzuA=",
+											"_parent": {
+												"$ref": "AAAAAAF0ROZWxW7/nPg="
+											},
+											"model": {
+												"$ref": "AAAAAAF0crM9vidlxhk="
+											},
+											"font": "Arial;13;0",
+											"left": 37,
+											"top": 307,
+											"width": 355.57666015625,
+											"height": 13,
+											"text": "+displayAllWorkers()",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 32,
 									"top": 107,
 									"width": 365.57666015625,
-									"height": 203
+									"height": 218
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -2333,7 +2370,7 @@
 							"left": 32,
 							"top": 72,
 							"width": 365.57666015625,
-							"height": 238,
+							"height": 253,
 							"nameCompartment": {
 								"$ref": "AAAAAAF0ROZWxG75Vo8="
 							},
@@ -3989,6 +4026,17 @@
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
 					"name": "Management",
+					"attributes": [
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAF0crMhjCbgISE=",
+							"_parent": {
+								"$ref": "AAAAAAF0ROZWxG72DNY="
+							},
+							"name": "Attribute1",
+							"type": ""
+						}
+					],
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -3997,54 +4045,7 @@
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
 							"name": "createIdWorkers",
-							"isStatic": true,
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RizzI6Ui+ds=",
-									"_parent": {
-										"$ref": "AAAAAAF0RipeqqNpoBs="
-									},
-									"name": "login",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RizzI6Ujj48=",
-									"_parent": {
-										"$ref": "AAAAAAF0RipeqqNpoBs="
-									},
-									"name": "password",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RizzI6Ukl34=",
-									"_parent": {
-										"$ref": "AAAAAAF0RipeqqNpoBs="
-									},
-									"name": "role",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RizzI6UlK/4=",
-									"_parent": {
-										"$ref": "AAAAAAF0RipeqqNpoBs="
-									},
-									"name": "firstName",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RizzI6UmPuo=",
-									"_parent": {
-										"$ref": "AAAAAAF0RipeqqNpoBs="
-									},
-									"name": "lastName",
-									"type": ""
-								}
-							]
+							"isStatic": true
 						},
 						{
 							"_type": "UMLOperation",
@@ -4053,18 +4054,7 @@
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
 							"name": "modifyRoleWorkers",
-							"isStatic": true,
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0Ri1M3qYGuj8=",
-									"_parent": {
-										"$ref": "AAAAAAF0RisY5KQkNzQ="
-									},
-									"name": "role",
-									"type": ""
-								}
-							]
+							"isStatic": true
 						},
 						{
 							"_type": "UMLOperation",
@@ -4073,18 +4063,7 @@
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
 							"name": "updateOperation",
-							"isStatic": true,
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0Ri3AMaZ1Krc=",
-									"_parent": {
-										"$ref": "AAAAAAF0RiwikKS7zTk="
-									},
-									"name": "newType",
-									"type": ""
-								}
-							]
+							"isStatic": true
 						},
 						{
 							"_type": "UMLOperation",
@@ -4092,7 +4071,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
-							"name": "displaySales",
+							"name": "displayIncomesByMonth",
 							"isStatic": true
 						},
 						{
@@ -4101,7 +4080,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
-							"name": "storeOperations",
+							"name": "displayIncomesByYear",
 							"isStatic": true
 						},
 						{
@@ -4119,26 +4098,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF0RjEjYKrShF0="
 									},
-									"name": "firstName",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RjKVY6yTI08=",
-									"_parent": {
-										"$ref": "AAAAAAF0RjEjYKrShF0="
-									},
-									"name": "lastName",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0RjKVY6yUt3U=",
-									"_parent": {
-										"$ref": "AAAAAAF0RjEjYKrShF0="
-									},
-									"name": "email",
-									"type": ""
+									"name": "l"
 								}
 							]
 						},
@@ -4185,18 +4145,7 @@
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
 							"name": "listOfOperationsInProgress",
-							"isStatic": true,
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF0SKNE5sAAecA=",
-									"_parent": {
-										"$ref": "AAAAAAF0RjkBUbE4t4Q="
-									},
-									"name": "id_workers",
-									"type": ""
-								}
-							]
+							"isStatic": true
 						},
 						{
 							"_type": "UMLOperation",
@@ -4214,6 +4163,14 @@
 								"$ref": "AAAAAAF0ROZWxG72DNY="
 							},
 							"name": "addOperationType"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF0crM9vidlxhk=",
+							"_parent": {
+								"$ref": "AAAAAAF0ROZWxG72DNY="
+							},
+							"name": "displayAllWorkers"
 						}
 					]
 				},

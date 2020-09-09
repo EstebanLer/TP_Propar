@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 03 sep. 2020 à 12:37
+-- Généré le :  mer. 09 sep. 2020 à 12:06
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -39,16 +39,14 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `street` varchar(30) COLLATE utf8_bin NOT NULL,
   `number` int(11) NOT NULL,
   PRIMARY KEY (`id_customer`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `customers`
 --
 
 INSERT INTO `customers` (`id_customer`, `firstName`, `lastName`, `email`, `city`, `zipCode`, `street`, `number`) VALUES
-(1, 'Jacques', 'Dupond', 'dupond.jacques@homail.com', 'Tourcoing', '59200', 'Rue fin de la guerre', 45),
-(2, 'Jean', 'martin', 'martin.jean@homail.com', 'Tourcoing', '59200', 'rue du bois blanc', 4),
-(3, 'Marc', 'toto', 'toto.marc@homail.com', 'Tourcoing', '59200', 'Rue fin de la guerre', 78);
+(1, 'Auguste', 'Julii', 'auguste.julii@gmail.com', 'Rome', '00100', 'Via Apia', 1);
 
 -- --------------------------------------------------------
 
@@ -71,16 +69,14 @@ CREATE TABLE IF NOT EXISTS `operations` (
   KEY `Operations_fk0` (`id_worker`),
   KEY `Operations_fk1` (`id_customer`),
   KEY `Operations_fk2` (`id_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `operations`
 --
 
 INSERT INTO `operations` (`id_operation`, `description`, `creation_date`, `date_start`, `date_end`, `status`, `id_worker`, `id_customer`, `id_type`) VALUES
-(1, 'Ceci est une grosse opÃ©ration de nettoyage', '2020-09-02', NULL, NULL, 'Taken', 1, 1, 3),
-(2, 'Ceci est une petite opération de nettoyage', '2020-09-02', NULL, NULL, 'Available', NULL, 1, 1),
-(3, 'Ceci est une petite operation de nettoyage', '2020-09-03', NULL, NULL, 'Available', NULL, 3, 1);
+(1, 'Je dois faire nettoyer mon palais', '2020-09-09', '2020-09-20', NULL, 'Available', NULL, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -103,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `operation_type` (
 INSERT INTO `operation_type` (`id_type`, `type`, `price`) VALUES
 (1, 'Petite', '1000'),
 (2, 'Moyenne', '2500'),
-(3, 'Grande', '10000');
+(3, 'Grosse', '10000');
 
 -- --------------------------------------------------------
 
@@ -122,16 +118,16 @@ CREATE TABLE IF NOT EXISTS `workers` (
   `email` varchar(50) COLLATE utf8_bin NOT NULL,
   `login` varchar(50) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id_worker`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  PRIMARY KEY (`id_worker`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `workers`
 --
 
 INSERT INTO `workers` (`id_worker`, `firstName`, `lastName`, `role`, `birthday`, `hiring_date`, `email`, `login`, `password`) VALUES
-(1, 'Esteban', 'Leroy', 'Expert', '1995-02-15', '2020-09-01', 'leroy@gmail.com', 'admin', 'admin'),
-(2, 'Théo', 'Blin', 'Senior', '1999-11-25', '2020-09-02', 'theoblin@hotmail.com', 'salut', '$2y$12$JN0rPwVws8T8qwiLSAxwyu3.P9n9vwkHhB/BP7TCkhZ07x/pLrqBe');
+(1, 'Esteban', 'Leroy', 'Expert', '1995-02-15', '2020-09-09', 'leroy.esteban15@gmail.com', 'admin1', '$2y$12$HhOkyirbnX626GO0v5mInOYKuXXLRJPkaEln/axu02QKJVFzWm3TS');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
