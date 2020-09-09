@@ -32,7 +32,7 @@ if (!empty($_POST['firstName']) && !empty($_POST['lastName']) && !empty($_POST['
 
         $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
 
-        $req = $dbi->query("SELECT email FROM workers");
+        $req = $dbi->query("SELECT email, login FROM workers");
         $response = $req->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($response as $rep) {
@@ -41,17 +41,34 @@ if (!empty($_POST['firstName']) && !empty($_POST['lastName']) && !empty($_POST['
             }
         }
 
-        if (isset($emailExist)) {
-            $errorMsg['workerExist'] = false;
+        foreach ($response as $rep) {
+            if ($_POST['login'] == $rep['login']) {
+                $loginExist = true;
+            }
+        }
+
+
+        if (isset($loginExist)) {
+
+            $errorMsg['loginExist'] = true;
             echo json_encode($errorMsg);
         } else {
 
-            $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, array("cost" => 12));
-            Management::createIdWorkers($_POST['firstName'], $_POST['lastName'], $_POST['role'], $_POST['birthday'],$_POST['email'], $_POST['login'], $passwordHash);
+            if (isset($emailExist)) {
+                $errorMsg['workerExist'] = false;
+                echo json_encode($errorMsg);
+            } else {
 
-            $errorMsg['workerExist'] = true;
-            echo json_encode($errorMsg);
+                $passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, array("cost" => 12));
+                Management::createIdWorkers($_POST['firstName'], $_POST['lastName'], $_POST['role'], $_POST['birthday'],$_POST['email'], $_POST['login'], $passwordHash);
+
+                $errorMsg['workerExist'] = true;
+                echo json_encode($errorMsg);
+            }
         }
+
+
+
 
     } else {
         $errorMsg['badEmail'] = false;

@@ -44,12 +44,14 @@ $operationType3 = new Operation_type(10000, "Grande");
 $currentMonth = date('m');
 //echo $currentMonth;
 
-$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+//$dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de données
+//
+//$req = $dbi->query("SELECT COUNT(id_operation) as nbOperation, role FROM workers, operations WHERE workers.id_worker = operations.id_worker AND status = 'Taken' AND workers.id_worker = 4 ");
+//$response = $req->fetch(PDO::FETCH_ASSOC);
+//
+//
+//print_r($response);
 
-//$req = $dbi->query("SELECT login FROM workers");
-//$response = $req->fetchAll(PDO::FETCH_ASSOC);
-//
-//
 //foreach ($response as $rep) {
 //    if ("duhdhuzhd" == $rep['login']) {
 //        $loginExist = true;
@@ -85,10 +87,56 @@ $dbi = dbSingleton::getInstance()->getConnection(); // Connexion à la base de d
 //print_r(Management::listOfOperationsInProgress('Leroy', 'Esteban', 'Expert'));
 //Management::endOperation('Leroy', 'Esteban', 'Expert', 4);
 
-if (filter_var("blalbla", FILTER_VALIDATE_INT)) {
-    echo "C'est un chiffre";
+//if (filter_var("blalbla", FILTER_VALIDATE_INT)) {
+//    echo "C'est un chiffre";
+//} else {
+//    echo "Ce n'est pas un nombre !!";
+//}
+
+
+//$dbi = dbSingleton::getInstance()->getConnection();
+//
+//$req = $dbi->prepare("SELECT id_worker FROM workers WHERE firstName = :firstName AND lastName = :lastName AND role = :role");
+//$req->execute(array(
+//    'firstName' => 'Esteban',
+//    'lastName' => 'Leroy',
+//    'role' => 'Expert'
+//));
+//
+//$id_worker = $req->fetch(PDO::FETCH_ASSOC);
+//
+//$id =  $id_worker['id_worker'];
+//
+//echo $id;
+
+//$dbi = dbSingleton::getInstance()->getConnection();
+//
+//$req = $dbi->query("SELECT firstName, lastName, id_operation FROM customers, operations WHERE customers.id_customer = operations.id_customer AND status IN ('Available', 'Taken')");
+//$response1 = $req->fetchAll(PDO::FETCH_ASSOC);
+//
+//foreach ($response1 as $rep) {
+//    if ($rep['firstName'] == "Neron" && $rep['lastName'] == "Pompilli" && $rep['id_operation'] ==  21) {
+//        $operationExist = true;
+//    }
+//}
+//
+//if (isset($operationExist)) {
+//    echo "l'opération existe";
+//} else {
+//    echo "n'existe pas";
+//}
+
+
+$myDateString = "2020-09-15";
+$date = date($myDateString);
+
+$currentDate = date("Y-m-d");
+
+
+if ($date < $currentDate) {
+    echo "date antérieur";
 } else {
-    echo "Ce n'est pas un nombre !!";
+    echo "date ulterieur";
 }
 
 

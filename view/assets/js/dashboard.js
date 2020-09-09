@@ -162,6 +162,10 @@ $(document).ready(function () {
                     $("#createWorkerForm")[0].reset();
                 }
 
+                if (data.loginExist === true) {
+                    alert("Le login est déjà utilisé")
+                }
+
                 if (data.badEmail === false) {
                     alert("l'email est invalide");
                 }
@@ -212,6 +216,10 @@ $(document).ready(function () {
 
                 if (data.badEmail === false) {
                     alert("L'email saisie est invalide")
+                }
+
+                if (data.badDate === true) {
+                    alert("Vous ne pouvez pas choisir une date antérieure comme date de départ")
                 }
 
                 if (data.nan === false) {
@@ -275,6 +283,7 @@ $(document).ready(function () {
         $.ajax({
             url : '/TP_Propar/controller/updateOperation.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
                 firstName : $('#clientFirstNameUpdate').val(),
@@ -284,14 +293,31 @@ $(document).ready(function () {
                 id_operation : $('#updateOperationID').val()
 
             },
-            success:function () {
-                alert("L'opération a été mise à jour");
+            success:function (data) {
+
+                if (data.success === true) {
+                    alert("L'opération a été mise à jour");
+                    $("#updateForm")[0].reset();
+                }
+
+                if (data.success === false) {
+                    alert("L'opération n'existe pas")
+                }
+
+                if (data.nan === true) {
+                    alert("Veuillez sasir un nombre pour l'ID")
+                }
+
+                if (data.empty === true) {
+                    alert("Veuillez remplir les champs")
+                }
+
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#updateForm")[0].reset();
+
     });
 
 });
@@ -539,22 +565,41 @@ $(document).ready(function (e) {
 $(document).ready(function (e) {
     $('#endAnOperationSubmit').click(function (e) {
         e.preventDefault();
+        $("#tbodyProgress").empty();
 
         $.ajax({
             url : '/TP_Propar/controller/endOperation.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
                 id_operation : $('#doneOperationId').val()
             },
-            success:function () {
-                alert("Vous avez cloturé l'opération");
+            success:function (data) {
+
+                if (data.success === true) {
+                    alert("Vous avez cloturé l'opération");
+                    $("#endOperationForm")[0].reset();
+                }
+
+                if (data.success === false) {
+                    alert("L'id de l'opération n'existe pas")
+                }
+
+                if (data.nan === false) {
+                    alert("Veuillez entrez un nombre pour l'ID")
+                }
+
+                if (data.empty === false) {
+                    alert("Veuillez remplir les champs")
+                }
+
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#endOperationForm")[0].reset();
+
     })
 })
 
@@ -594,24 +639,82 @@ $(document).ready(function (e) {
 $(document).ready(function (e) {
     $('#takeAnOperationSubmit').click(function (e) {
         e.preventDefault();
+        $("#tbodyAvailable").empty();
 
         $.ajax({
-            url : '/TP_Propar/controller/TakeOperation.action.php',
+            url : '/TP_Propar/controller/takeOperation.action.php',
             type: 'POST',
+            dataType : 'json',
             data: {
                 // Management::updateOperation($_POST['firstName'], $_POST['lastName'], $_POST['typeUpdate'], $_POST['description']);
                 id_operation : $('#operationId').val()
             },
-            success:function () {
-                alert("Vous avez pris l'opération");
+            success:function (data) {
+                if (data.success === true) {
+                    alert("Vous avez pris l'opération");
+                    $("#takeAnOperationForm")[0].reset();
+                }
+
+                if (data.success === false) {
+                    alert("Vous ne pouvez pas prendre plus d'opérations");
+                    $("#takeAnOperationForm")[0].reset();
+                }
+
+                if (data.nan === true) {
+                    alert("Veuillez saisir un nombre pour l'id")
+                }
+
+                if (data.empty === true) {
+                    alert("Veuillez remplir les champs")
+                }
+
+
+
             },
             error:function () {
                 alert('erreur')
             }
         });
-        $("#takeAnOperationSubmit")[0].reset();
+
     })
 })
+
+
+$(document).ready(function (e) {
+    $('#takeAnOperationSubmit').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url : '/TP_Propar/controller/displayAvailableOperation.action.php',
+            method: 'POST',
+            dataType : 'json',
+            success:function (data) {
+                data.forEach(element => {
+                    $("#tbodyAvailable").append("<tr id='trBody'></tr>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.lastName + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.firstName + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.id_operation + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.description + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.email + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.creation_date + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.date_start + "</td>")
+                    $('#tableOperation tbody>tr:last').append("<td>" + element.type + "</td>")
+
+                    $(document).ready( function () {
+                        $('#tableOperation').DataTable();
+                    } );
+                })
+
+                // pour chaque tr il faut ajouter des td
+            },
+            error:function () {
+                alert('erreur')
+            }
+        });
+    })
+})
+
+
 
 $(document).on('click', '#buttonCreateOperation', function (e) {
 

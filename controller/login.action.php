@@ -40,6 +40,7 @@ $_SESSION['userLastName'] = "";
                 $_SESSION['userRole'] = $result[0]['role'];
                 $_SESSION['userFirstName'] = $result[0]['firstName'];
                 $_SESSION['userLastName'] = $result[0]['lastName'];
+                $_SESSION['login'] = $_POST['username'];
                 $errorMsg['return'] = true;
                 echo json_encode($errorMsg);
             } else {
