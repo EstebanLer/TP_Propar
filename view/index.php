@@ -278,11 +278,11 @@ session_start();
                                     <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="firstName">First Name</label>
+                                    <label for="firstName">First name</label>
                                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name ...">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="lastName">Last Name</label>
+                                    <label for="lastName">Last name</label>
                                     <input type="text" class="form-control" id="lastName" name="lastname" placeholder="Your last name here ...">
                                 </div>
                                 <div class="form-group col-md-4">

@@ -174,6 +174,10 @@ $(document).ready(function () {
                     alert("Le login est déjà utilisé")
                 }
 
+                if (data.badTypo === true) {
+                    alert("Les accents et caractères spéciaux ne sont pas admis dans firstname and lastname")
+                }
+
                 if (data.badEmail === false) {
                     alert("l'email est invalide");
                 }
@@ -226,6 +230,10 @@ $(document).ready(function () {
                     alert("L'email saisie est invalide")
                 }
 
+                if(data.badTypo === true) {
+                    alert("Les nombres ne sont pas autorisés dans les champs firstname, lastname et dans la description")
+                }
+
                 if (data.badDate === true) {
                     alert("Vous ne pouvez pas choisir une date antérieure comme date de départ")
                 }
@@ -264,8 +272,16 @@ $(document).ready(function () {
                     $("#modifyRoleWorkerForm")[0].reset();
                 }
 
+                if (data.badTypo === true) {
+                    alert("Les caractères spéciaux et accents ne sont pas autorisés dans firstname et lastname")
+                }
+
                 if (data.success === false) {
                     alert("L'ID ne correspond pas");
+                }
+
+                if (data.workerExist === false) {
+                    alert("Le rôle ne peut pas être modifié car les informations ne concordent pas !")
                 }
 
                 if (data.userExist === false) {
@@ -313,6 +329,10 @@ $(document).ready(function () {
 
                 if (data.success === false) {
                     alert("L'opération n'existe pas")
+                }
+
+                if (data.badTypo === true) {
+                    alert("Les caractères spéciaux et accents ne sont pas admis dans les champs firstname et lastname")
                 }
 
                 if (data.nan === true) {
@@ -551,8 +571,16 @@ $(document).ready(function (e) {
                     $("#addOperationTypeForm")[0].reset();
                 }
 
+                if(data.badPrice === true) {
+                    alert("Vous ne pouvez pas entrer un prix nul ou négatif !")
+                }
+
                 if (data.success === false) {
                     alert("Veuillez remplir les champs");
+                }
+
+                if (data.badTypo === true) {
+                    alert("Les caractères spéciaux et accents ne sont pas autorisés dans type")
                 }
 
                 if (data.nan === false) {
